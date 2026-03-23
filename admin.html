@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Auburn Business Network</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-brand">
+        <span class="brand-icon">AB</span>
+        Auburn Business Network
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="directory.html">Directory</a></li>
+        <li><a href="apply.html">List Your Business</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Login Screen -->
+  <div class="admin-login" id="login-screen">
+    <div class="login-card">
+      <div class="login-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <h2>Admin Login</h2>
+      <p>Sign in to manage the Auburn Business Network</p>
+      <div class="login-error" id="login-error">Invalid credentials. Please try again.</div>
+      <form onsubmit="return handleLogin(event)">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="login-email" required placeholder="admin@auburnbusinessnetwork.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="login-password" required placeholder="Enter password">
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-top:8px;">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard (hidden until login) -->
+  <div id="admin-dashboard" style="display:none;">
+
+    <!-- Admin Header -->
+    <section class="admin-header">
+      <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <h1>Admin Dashboard</h1>
+          <p>Manage applications and business listings</p>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="handleLogout()">Sign Out</button>
+      </div>
+    </section>
+
+    <!-- Admin Content -->
+    <div class="admin-content">
+      <div class="container">
+
+        <!-- Stats -->
+        <div class="admin-stats">
+          <div class="stat-card">
+            <div class="stat-number" id="stat-total">0</div>
+            <div class="stat-label">Total Businesses</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-pending">0</div>
+            <div class="stat-label">Pending Applications</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-locations">0</div>
+            <div class="stat-label">Locations</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="stat-industries">0</div>
+            <div class="stat-label">Industries</div>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="admin-tabs">
+          <button class="admin-tab active" onclick="switchTab('applications', this)">Applications</button>
+          <button class="admin-tab" onclick="switchTab('businesses', this)">Businesses</button>
+        </div>
+
+        <!-- Applications Table -->
+        <div id="tab-applications">
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Business</th>
+                  <th>Owner</th>
+                  <th>Industry</th>
+                  <th>Location</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="applications-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Businesses Table -->
+        <div id="tab-businesses" style="display:none;">
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Business</th>
+                  <th>Owner</th>
+                  <th>Industry</th>
+                  <th>Location</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="businesses-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 Auburn Business Network. Admin Panel.</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    // Simple demo auth (replace with Supabase Auth later)
+    const DEMO_CREDENTIALS = {
+      email: 'admin@abn.com',
+      password: 'wareagle'
+    };
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+
+      if (email === DEMO_CREDENTIALS.email && password === DEMO_CREDENTIALS.password) {
+        sessionStorage.setItem('abn_admin', 'true');
+        showDashboard();
+      } else {
+        document.getElementById('login-error').style.display = 'block';
+      }
+      return false;
+    }
+
+    function handleLogout() {
+      sessionStorage.removeItem('abn_admin');
+      document.getElementById('admin-dashboard').style.display = 'none';
+      document.getElementById('login-screen').style.display = '';
+    }
+
+    function showDashboard() {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('admin-dashboard').style.display = 'block';
+      loadStats();
+      loadApplications();
+      loadBusinesses();
+    }
+
+    function loadStats() {
+      document.getElementById('stat-total').textContent = BUSINESSES.length;
+      document.getElementById('stat-pending').textContent = SAMPLE_APPLICATIONS.filter(a => a.status === 'pending').length;
+      document.getElementById('stat-locations').textContent = getLocations().length;
+      document.getElementById('stat-industries').textContent = getIndustries().length;
+    }
+
+    function loadApplications() {
+      const tbody = document.getElementById('applications-body');
+      tbody.innerHTML = SAMPLE_APPLICATIONS.map(app => `
+        <tr>
+          <td><strong>${app.businessName}</strong></td>
+          <td>${app.ownerName}</td>
+          <td>${app.industry}</td>
+          <td>${app.location}</td>
+          <td>${app.submittedDate}</td>
+          <td><span class="status-badge ${app.status}">${app.status.charAt(0).toUpperCase() + app.status.slice(1)}</span></td>
+          <td>
+            <div class="action-btns">
+              ${app.status === 'pending' ? `
+                <button class="action-btn approve" onclick="approveApp(${app.id})">Approve</button>
+                <button class="action-btn reject" onclick="rejectApp(${app.id})">Reject</button>
+              ` : ''}
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function loadBusinesses() {
+      const tbody = document.getElementById('businesses-body');
+      tbody.innerHTML = BUSINESSES.map(b => `
+        <tr>
+          <td><strong>${b.name}</strong></td>
+          <td>${b.owner}</td>
+          <td>${b.industry}</td>
+          <td>${b.location}</td>
+          <td><span class="status-badge active">Active</span></td>
+          <td>
+            <div class="action-btns">
+              <button class="action-btn edit" onclick="alert('Edit functionality coming with Supabase integration')">Edit</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function approveApp(id) {
+      const app = SAMPLE_APPLICATIONS.find(a => a.id === id);
+      if (app) {
+        app.status = 'approved';
+        loadApplications();
+        loadStats();
+        alert(`${app.businessName} has been approved! In production, this would create their listing and send an invoice.`);
+      }
+    }
+
+    function rejectApp(id) {
+      const app = SAMPLE_APPLICATIONS.find(a => a.id === id);
+      if (app) {
+        app.status = 'rejected';
+        loadApplications();
+        loadStats();
+        alert(`${app.businessName} has been rejected.`);
+      }
+    }
+
+    function switchTab(tab, btn) {
+      document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-applications').style.display = tab === 'applications' ? '' : 'none';
+      document.getElementById('tab-businesses').style.display = tab === 'businesses' ? '' : 'none';
+    }
+
+    // Check if already logged in
+    document.addEventListener('DOMContentLoaded', () => {
+      if (sessionStorage.getItem('abn_admin') === 'true') {
+        showDashboard();
+      }
+    });
+  </script>
+
+</body>
+</html>
