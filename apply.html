@@ -83,7 +83,7 @@
         </div>
         <div class="form-group">
           <label>Business Website</label>
-          <input type="url" name="website" placeholder="https://yourbusiness.com">
+          <input type="text" name="website" placeholder="yourbusiness.com">
           <span class="help-text">Optional — we'll link to your site from your listing</span>
         </div>
         <div class="form-group">
@@ -162,11 +162,13 @@
 
       try {
         const formData = new FormData(form);
+        let website = formData.get('website')?.trim() || '';
+        if (website && !website.startsWith('http')) website = 'https://' + website;
         await submitApplication({
           businessName: formData.get('businessName'),
           industry: formData.get('industry'),
           address: formData.get('address'),
-          website: formData.get('website'),
+          website: website || null,
           bio: formData.get('bio'),
           ownerName: formData.get('ownerName'),
           email: formData.get('email'),
