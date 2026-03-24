@@ -35,30 +35,15 @@ const INDUSTRY_ICONS = {
   'Other': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`
 };
 
-// Industry-specific gradient colors
-const INDUSTRY_COLORS = {
-  'Construction':      'linear-gradient(135deg, #1a3a5c 0%, #2a5a8c 100%)',
-  'Financial Services': 'linear-gradient(135deg, #0d4d4d 0%, #1a7a7a 100%)',
-  'Food & Beverage':   'linear-gradient(135deg, #8b2500 0%, #c0392b 100%)',
-  'Real Estate':       'linear-gradient(135deg, #1a4d2e 0%, #27764a 100%)',
-  'Technology':        'linear-gradient(135deg, #2d1b69 0%, #4a2d8c 100%)',
-  'Legal':             'linear-gradient(135deg, #34495e 0%, #4a6785 100%)',
-  'Home Services':     'linear-gradient(135deg, #5d4037 0%, #795548 100%)',
-  'Creative Services': 'linear-gradient(135deg, #7b1e5e 0%, #a0287a 100%)',
-  'Automotive':        'linear-gradient(135deg, #2c3e50 0%, #455a6e 100%)',
-  'Healthcare':        'linear-gradient(135deg, #0e6655 0%, #148f77 100%)',
-  'Marketing':         'linear-gradient(135deg, #c0392b 0%, #e55b4d 100%)',
-  'Health & Fitness':  'linear-gradient(135deg, #1e7e34 0%, #2ea44f 100%)',
-  'Insurance':         'linear-gradient(135deg, #2c5282 0%, #3a7bc8 100%)',
-  'Other':             'linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%)'
-};
+// Auburn-branded gradient color for all cards
+const AUBURN_COLOR = 'linear-gradient(135deg, #03244d 0%, #0a3a6b 60%, #F26522 100%)';
 
 function getIndustryIcon(industry) {
   return INDUSTRY_ICONS[industry] || INDUSTRY_ICONS['Other'];
 }
 
-function getIndustryColor(industry) {
-  return INDUSTRY_COLORS[industry] || INDUSTRY_COLORS['Other'];
+function getIndustryColor() {
+  return AUBURN_COLOR;
 }
 
 // Mobile navigation toggle
