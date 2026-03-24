@@ -164,7 +164,10 @@
         document.getElementById('login-error').style.display = 'none';
         showDashboard();
       } catch (err) {
-        document.getElementById('login-error').style.display = 'block';
+        const errorEl = document.getElementById('login-error');
+        errorEl.textContent = err.message || 'Invalid credentials. Please try again.';
+        errorEl.style.display = 'block';
+        console.error('Login error:', err);
       }
       return false;
     }
