@@ -106,12 +106,15 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase-config.js"></script>
   <script src="assets/js/data.js"></script>
   <script src="assets/js/main.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const industrySelect = document.getElementById('hero-industry');
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadBusinesses();
 
+      const industrySelect = document.getElementById('hero-industry');
       getIndustries().forEach(ind => {
         industrySelect.innerHTML += `<option value="${ind}">${ind}</option>`;
       });

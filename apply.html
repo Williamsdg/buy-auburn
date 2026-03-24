@@ -145,25 +145,46 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase-config.js"></script>
   <script src="assets/js/data.js"></script>
   <script src="assets/js/main.js"></script>
   <script>
-    function handleApply(e) {
+    async function handleApply(e) {
       e.preventDefault();
       const form = document.getElementById('apply-form');
       const success = document.getElementById('form-success');
+      const submitBtn = form.querySelector('button[type="submit"]');
 
-      // In production, this would submit to Supabase
-      // For now, just show success message
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData);
-      console.log('Application submitted:', data);
+      // Disable button while submitting
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
 
-      form.style.display = 'none';
-      document.querySelector('.pricing-note').style.display = 'none';
-      success.classList.add('active');
+      try {
+        const formData = new FormData(form);
+        await submitApplication({
+          businessName: formData.get('businessName'),
+          industry: formData.get('industry'),
+          address: formData.get('address'),
+          website: formData.get('website'),
+          bio: formData.get('bio'),
+          ownerName: formData.get('ownerName'),
+          email: formData.get('email'),
+          phone: formData.get('phone'),
+          auburnConnection: formData.get('auburnConnection')
+        });
 
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+        form.style.display = 'none';
+        document.querySelector('.pricing-note').style.display = 'none';
+        success.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        console.error('Submission error:', err);
+        alert('There was an error submitting your application. Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Application';
+      }
+
       return false;
     }
   </script>

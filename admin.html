@@ -82,7 +82,7 @@
           </div>
           <div class="stat-card">
             <div class="stat-number" id="stat-locations">0</div>
-            <div class="stat-label">Locations</div>
+            <div class="stat-label">Paid Listings</div>
           </div>
           <div class="stat-card">
             <div class="stat-number" id="stat-industries">0</div>
@@ -146,65 +146,76 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase-config.js"></script>
   <script src="assets/js/data.js"></script>
   <script src="assets/js/main.js"></script>
   <script>
-    // Simple demo auth (replace with Supabase Auth later)
-    const DEMO_CREDENTIALS = {
-      email: 'admin@abn.com',
-      password: 'wareagle'
-    };
+    let _applications = [];
+    let _allBusinesses = [];
 
-    function handleLogin(e) {
+    async function handleLogin(e) {
       e.preventDefault();
       const email = document.getElementById('login-email').value;
       const password = document.getElementById('login-password').value;
 
-      if (email === DEMO_CREDENTIALS.email && password === DEMO_CREDENTIALS.password) {
-        sessionStorage.setItem('abn_admin', 'true');
+      try {
+        await adminSignIn(email, password);
+        document.getElementById('login-error').style.display = 'none';
         showDashboard();
-      } else {
+      } catch (err) {
         document.getElementById('login-error').style.display = 'block';
       }
       return false;
     }
 
-    function handleLogout() {
-      sessionStorage.removeItem('abn_admin');
+    async function handleLogout() {
+      await adminSignOut();
       document.getElementById('admin-dashboard').style.display = 'none';
       document.getElementById('login-screen').style.display = '';
     }
 
-    function showDashboard() {
+    async function showDashboard() {
       document.getElementById('login-screen').style.display = 'none';
       document.getElementById('admin-dashboard').style.display = 'block';
-      loadStats();
-      loadApplications();
-      loadBusinesses();
+      await refreshData();
     }
 
-    function loadStats() {
-      document.getElementById('stat-total').textContent = BUSINESSES.length;
-      document.getElementById('stat-pending').textContent = SAMPLE_APPLICATIONS.filter(a => a.status === 'pending').length;
-      document.getElementById('stat-locations').textContent = getLocations().length;
-      document.getElementById('stat-industries').textContent = getIndustries().length;
+    async function refreshData() {
+      _applications = await loadApplications();
+      _allBusinesses = await loadAllBusinesses();
+      renderStats();
+      renderApplications();
+      renderBusinesses();
     }
 
-    function loadApplications() {
+    function renderStats() {
+      document.getElementById('stat-total').textContent = _allBusinesses.length;
+      document.getElementById('stat-pending').textContent = _applications.filter(a => a.status === 'pending').length;
+      const paid = _allBusinesses.filter(b => b.payment_status === 'paid').length;
+      document.getElementById('stat-locations').textContent = paid;
+      document.getElementById('stat-industries').textContent = [...new Set(_allBusinesses.map(b => b.industry))].length;
+    }
+
+    function renderApplications() {
       const tbody = document.getElementById('applications-body');
-      tbody.innerHTML = SAMPLE_APPLICATIONS.map(app => `
+      if (_applications.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#6c757d;padding:40px;">No applications yet</td></tr>';
+        return;
+      }
+      tbody.innerHTML = _applications.map(app => `
         <tr>
-          <td><strong>${app.businessName}</strong></td>
-          <td>${app.ownerName}</td>
+          <td><strong>${app.business_name}</strong></td>
+          <td>${app.owner_name}</td>
           <td>${app.industry}</td>
-          <td>${app.location}</td>
-          <td>${app.submittedDate}</td>
+          <td>${app.address}</td>
+          <td>${new Date(app.created_at).toLocaleDateString()}</td>
           <td><span class="status-badge ${app.status}">${app.status.charAt(0).toUpperCase() + app.status.slice(1)}</span></td>
           <td>
             <div class="action-btns">
               ${app.status === 'pending' ? `
-                <button class="action-btn approve" onclick="approveApp(${app.id})">Approve</button>
-                <button class="action-btn reject" onclick="rejectApp(${app.id})">Reject</button>
+                <button class="action-btn approve" onclick="approveApp('${app.id}')">Approve</button>
+                <button class="action-btn reject" onclick="rejectApp('${app.id}')">Reject</button>
               ` : ''}
             </div>
           </td>
@@ -212,41 +223,66 @@
       `).join('');
     }
 
-    function loadBusinesses() {
+    function renderBusinesses() {
       const tbody = document.getElementById('businesses-body');
-      tbody.innerHTML = BUSINESSES.map(b => `
+      tbody.innerHTML = _allBusinesses.map(b => `
         <tr>
           <td><strong>${b.name}</strong></td>
           <td>${b.owner}</td>
           <td>${b.industry}</td>
           <td>${b.location}</td>
-          <td><span class="status-badge active">Active</span></td>
+          <td>
+            <span class="status-badge ${b.payment_status === 'paid' ? 'active' : 'pending'}">
+              ${b.payment_status === 'paid' ? 'Paid' : 'Unpaid'}
+            </span>
+          </td>
           <td>
             <div class="action-btns">
-              <button class="action-btn edit" onclick="alert('Edit functionality coming with Supabase integration')">Edit</button>
+              ${b.payment_status !== 'paid' ? `<button class="action-btn approve" onclick="markPaid('${b.id}')">Mark Paid</button>` : ''}
             </div>
           </td>
         </tr>
       `).join('');
     }
 
-    function approveApp(id) {
-      const app = SAMPLE_APPLICATIONS.find(a => a.id === id);
-      if (app) {
-        app.status = 'approved';
-        loadApplications();
-        loadStats();
-        alert(`${app.businessName} has been approved! In production, this would create their listing and send an invoice.`);
+    async function approveApp(id) {
+      const app = _applications.find(a => a.id === id);
+      if (!app) return;
+      if (!confirm(`Approve "${app.business_name}" and create their listing?`)) return;
+
+      try {
+        await approveAndCreateBusiness(app);
+        alert(`${app.business_name} approved! Listing created (unpaid). Send them an invoice for $300.`);
+        await refreshData();
+      } catch (err) {
+        console.error(err);
+        alert('Error approving application.');
       }
     }
 
-    function rejectApp(id) {
-      const app = SAMPLE_APPLICATIONS.find(a => a.id === id);
-      if (app) {
-        app.status = 'rejected';
-        loadApplications();
-        loadStats();
-        alert(`${app.businessName} has been rejected.`);
+    async function rejectApp(id) {
+      const app = _applications.find(a => a.id === id);
+      if (!app) return;
+      if (!confirm(`Reject "${app.business_name}"?`)) return;
+
+      try {
+        await updateApplicationStatus(id, 'rejected');
+        await refreshData();
+      } catch (err) {
+        console.error(err);
+        alert('Error rejecting application.');
+      }
+    }
+
+    async function markPaid(id) {
+      if (!confirm('Mark this business as paid? Their listing will go live on the directory.')) return;
+      try {
+        await updateBusinessPayment(id, 'paid');
+        alert('Business marked as paid and is now live on the directory!');
+        await refreshData();
+      } catch (err) {
+        console.error(err);
+        alert('Error updating payment status.');
       }
     }
 
@@ -258,8 +294,9 @@
     }
 
     // Check if already logged in
-    document.addEventListener('DOMContentLoaded', () => {
-      if (sessionStorage.getItem('abn_admin') === 'true') {
+    document.addEventListener('DOMContentLoaded', async () => {
+      const session = await getSession();
+      if (session) {
         showDashboard();
       }
     });
