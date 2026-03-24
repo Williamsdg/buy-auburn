@@ -10,7 +10,7 @@ let _industriesCache = [];
 // Fetch all active businesses from Supabase
 async function loadBusinesses() {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('businesses')
       .select('*')
       .order('name');
@@ -58,7 +58,7 @@ function getBusinessById(id) {
 
 // Submit a new application
 async function submitApplication(formData) {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('applications')
     .insert([{
       business_name: formData.businessName,
@@ -80,7 +80,7 @@ async function submitApplication(formData) {
 
 // Sign in admin
 async function adminSignIn(email, password) {
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await db.auth.signInWithPassword({
     email,
     password
   });
@@ -90,19 +90,19 @@ async function adminSignIn(email, password) {
 
 // Sign out admin
 async function adminSignOut() {
-  const { error } = await supabase.auth.signOut();
+  const { error } = await db.auth.signOut();
   if (error) throw error;
 }
 
 // Get current session
 async function getSession() {
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { session } } = await db.auth.getSession();
   return session;
 }
 
 // Fetch all applications (admin only)
 async function loadApplications() {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('applications')
     .select('*')
     .order('created_at', { ascending: false });
@@ -113,7 +113,7 @@ async function loadApplications() {
 
 // Fetch ALL businesses including unpaid (admin only)
 async function loadAllBusinesses() {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('businesses')
     .select('*')
     .order('name');
@@ -124,7 +124,7 @@ async function loadAllBusinesses() {
 
 // Update application status
 async function updateApplicationStatus(id, status) {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('applications')
     .update({ status })
     .eq('id', id);
@@ -139,7 +139,7 @@ async function approveAndCreateBusiness(application) {
   await updateApplicationStatus(application.id, 'approved');
 
   // Create business listing (unpaid until they pay)
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('businesses')
     .insert([{
       name: application.business_name,
@@ -162,7 +162,7 @@ async function approveAndCreateBusiness(application) {
 
 // Update business payment status
 async function updateBusinessPayment(id, paymentStatus) {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('businesses')
     .update({ payment_status: paymentStatus })
     .eq('id', id);
