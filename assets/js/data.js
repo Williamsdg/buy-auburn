@@ -37,17 +37,24 @@ function getFeaturedBusinesses(count = 4) {
 }
 
 // Search and filter businesses
-function searchBusinesses({ query = '', industry = '' } = {}) {
+function getLocations() {
+  const locations = [...new Set(_businessesCache.map(b => b.location))].sort();
+  return locations;
+}
+
+function searchBusinesses({ query = '', industry = '', location = '' } = {}) {
   return _businessesCache.filter(b => {
     const matchesQuery = !query ||
       b.name.toLowerCase().includes(query.toLowerCase()) ||
       b.bio.toLowerCase().includes(query.toLowerCase()) ||
       b.owner.toLowerCase().includes(query.toLowerCase()) ||
-      b.industry.toLowerCase().includes(query.toLowerCase());
+      b.industry.toLowerCase().includes(query.toLowerCase()) ||
+      b.location.toLowerCase().includes(query.toLowerCase());
 
     const matchesIndustry = !industry || b.industry === industry;
+    const matchesLocation = !location || b.location === location;
 
-    return matchesQuery && matchesIndustry;
+    return matchesQuery && matchesIndustry && matchesLocation;
   });
 }
 
@@ -63,6 +70,8 @@ async function submitApplication(formData) {
     .insert([{
       business_name: formData.businessName,
       industry: formData.industry,
+      city: formData.city,
+      state: formData.state,
       address: formData.address,
       website: formData.website || null,
       bio: formData.bio,
@@ -145,7 +154,7 @@ async function approveAndCreateBusiness(application) {
       name: application.business_name,
       industry: application.industry,
       address: application.address,
-      location: 'Auburn, AL',
+      location: (application.city && application.state) ? `${application.city}, ${application.state}` : 'Auburn, AL',
       website: application.website,
       bio: application.bio,
       owner: application.owner_name,

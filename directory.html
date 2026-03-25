@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Business Directory — Auburn Business Network</title>
-  <meta name="description" content="Browse Auburn-owned local businesses by industry. Find what you need from the Auburn family.">
+  <meta name="description" content="Browse Auburn family-owned businesses by city and industry. Find Auburn-owned spots wherever you travel.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=2">
+  <link rel="stylesheet" href="assets/css/styles.css?v=3">
 </head>
 <body>
 
@@ -34,7 +34,7 @@
   <section class="directory-header">
     <div class="container">
       <h1>Business Directory</h1>
-      <p>Browse locally-owned Auburn businesses by industry</p>
+      <p>Find Auburn family-owned businesses by city or industry</p>
     </div>
   </section>
 
@@ -42,6 +42,12 @@
   <div class="filters-bar">
     <div class="container">
       <div class="filters-row">
+        <div class="filter-group">
+          <label for="filter-location">City</label>
+          <select id="filter-location" onchange="applyFilters()">
+            <option value="">All Cities</option>
+          </select>
+        </div>
         <div class="filter-group">
           <label for="filter-industry">Industry</label>
           <select id="filter-industry" onchange="applyFilters()">
@@ -78,19 +84,24 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/supabase-config.js"></script>
   <script src="assets/js/data.js"></script>
-  <script src="assets/js/main.js?v=2"></script>
+  <script src="assets/js/main.js?v=3"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       await loadBusinesses();
       const industrySelect = document.getElementById('filter-industry');
+      const locationSelect = document.getElementById('filter-location');
 
       getIndustries().forEach(ind => {
         industrySelect.innerHTML += `<option value="${ind}">${ind}</option>`;
+      });
+      getLocations().forEach(loc => {
+        locationSelect.innerHTML += `<option value="${loc}">${loc}</option>`;
       });
 
       // Check URL params for pre-selected filters
       const params = new URLSearchParams(window.location.search);
       if (params.get('industry')) industrySelect.value = params.get('industry');
+      if (params.get('location')) locationSelect.value = params.get('location');
       if (params.get('q')) document.getElementById('filter-search').value = params.get('q');
 
       applyFilters();
@@ -98,9 +109,10 @@
 
     function applyFilters() {
       const industry = document.getElementById('filter-industry').value;
+      const location = document.getElementById('filter-location').value;
       const query = document.getElementById('filter-search').value;
 
-      const results = searchBusinesses({ query, industry });
+      const results = searchBusinesses({ query, industry, location });
 
       const grid = document.getElementById('results-grid');
       const noResults = document.getElementById('no-results');
@@ -120,6 +132,7 @@
       // Update URL params without reload
       const params = new URLSearchParams();
       if (industry) params.set('industry', industry);
+      if (location) params.set('location', location);
       if (query) params.set('q', query);
       const newUrl = params.toString() ? `?${params.toString()}` : window.location.pathname;
       history.replaceState(null, '', newUrl);

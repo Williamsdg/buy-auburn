@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=2">
+  <link rel="stylesheet" href="assets/css/styles.css?v=3">
 </head>
 <body>
 
@@ -211,7 +211,7 @@
           <td><strong>${app.business_name}</strong></td>
           <td>${app.owner_name}</td>
           <td>${app.industry}</td>
-          <td>${app.address}</td>
+          <td>${app.city && app.state ? `${app.city}, ${app.state}` : app.address}</td>
           <td>${new Date(app.created_at).toLocaleDateString()}</td>
           <td><span class="status-badge ${app.status}">${app.status.charAt(0).toUpperCase() + app.status.slice(1)}</span></td>
           <td>
