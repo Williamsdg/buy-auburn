@@ -38,6 +38,85 @@ const INDUSTRY_ICONS = {
 // Auburn-branded gradient color for all cards
 const AUBURN_COLOR = 'linear-gradient(135deg, #03244d 0%, #0a3a6b 60%, #F26522 100%)';
 
+// Logo color palettes per industry
+const LOGO_PALETTES = {
+  'Construction': { bg: '#1a1a2e', accent: '#F26522', text: '#fff' },
+  'Financial Services': { bg: '#0a1628', accent: '#C9A84C', text: '#C9A84C' },
+  'Food & Beverage': { bg: '#2d1810', accent: '#F26522', text: '#fff' },
+  'Real Estate': { bg: '#0a3a6b', accent: '#fff', text: '#fff' },
+  'Technology': { bg: '#0f172a', accent: '#38bdf8', text: '#38bdf8' },
+  'Legal': { bg: '#1c1917', accent: '#C9A84C', text: '#C9A84C' },
+  'Home Services': { bg: '#14532d', accent: '#4ade80', text: '#fff' },
+  'Creative Services': { bg: '#3b0764', accent: '#c084fc', text: '#c084fc' },
+  'Automotive': { bg: '#1a1a2e', accent: '#ef4444', text: '#fff' },
+  'Healthcare': { bg: '#0c4a6e', accent: '#38bdf8', text: '#fff' },
+  'Marketing': { bg: '#4c0519', accent: '#fb7185', text: '#fff' },
+  'Health & Fitness': { bg: '#14532d', accent: '#F26522', text: '#fff' },
+  'Insurance': { bg: '#0a1628', accent: '#60a5fa', text: '#60a5fa' },
+  'Other': { bg: '#1a1a2e', accent: '#F26522', text: '#fff' }
+};
+
+// Generate a unique hash from string for variety
+function hashStr(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash) + str.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash);
+}
+
+// Get business initials (first letter of first 2 words)
+function getInitials(name) {
+  return name.split(/\s+/).filter(w => w.length > 0 && w[0] === w[0].toUpperCase()).slice(0, 2).map(w => w[0]).join('');
+}
+
+// Generate SVG logo for a business
+function generateLogo(business) {
+  const initials = getInitials(business.name);
+  const palette = LOGO_PALETTES[business.industry] || LOGO_PALETTES['Other'];
+  const h = hashStr(business.name);
+  const style = h % 6; // 6 different logo styles
+
+  const svgStyles = {
+    // Style 0: Circle with initials
+    0: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="60" r="54" fill="${palette.bg}" stroke="${palette.accent}" stroke-width="3"/>
+      <text x="60" y="68" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="800" font-size="36" fill="${palette.text}">${initials}</text>
+    </svg>`,
+    // Style 1: Rounded square with accent bar
+    1: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect x="8" y="8" width="104" height="104" rx="20" fill="${palette.bg}" stroke="${palette.accent}" stroke-width="2"/>
+      <rect x="8" y="8" width="104" height="6" rx="3" fill="${palette.accent}"/>
+      <text x="60" y="72" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="800" font-size="38" fill="${palette.text}">${initials}</text>
+    </svg>`,
+    // Style 2: Diamond shape
+    2: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect x="18" y="18" width="84" height="84" rx="8" fill="${palette.bg}" stroke="${palette.accent}" stroke-width="2.5" transform="rotate(45 60 60)"/>
+      <text x="60" y="68" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="800" font-size="32" fill="${palette.text}">${initials}</text>
+    </svg>`,
+    // Style 3: Circle with inner ring
+    3: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="60" r="54" fill="${palette.bg}"/>
+      <circle cx="60" cy="60" r="46" fill="none" stroke="${palette.accent}" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <text x="60" y="68" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="800" font-size="34" fill="${palette.text}">${initials}</text>
+    </svg>`,
+    // Style 4: Hexagon
+    4: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="60,6 110,30 110,90 60,114 10,90 10,30" fill="${palette.bg}" stroke="${palette.accent}" stroke-width="2.5"/>
+      <text x="60" y="68" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="800" font-size="34" fill="${palette.text}">${initials}</text>
+    </svg>`,
+    // Style 5: Square with side accent
+    5: `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect x="8" y="8" width="104" height="104" rx="12" fill="${palette.bg}" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+      <rect x="8" y="8" width="5" height="104" rx="2" fill="${palette.accent}"/>
+      <text x="64" y="72" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="800" font-size="38" fill="${palette.text}">${initials}</text>
+    </svg>`
+  };
+
+  return svgStyles[style];
+}
+
 function getIndustryIcon(industry) {
   return INDUSTRY_ICONS[industry] || INDUSTRY_ICONS['Other'];
 }
@@ -88,6 +167,7 @@ function createBusinessCard(business) {
           <span class="card-we-badge">WE</span>
         </div>
         <div class="card-art" style="background:${color}">
+          <div class="card-logo">${generateLogo(business)}</div>
           <div class="card-art-icon">${icon}</div>
           <div class="card-art-pattern"></div>
         </div>
