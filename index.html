@@ -409,6 +409,52 @@
     }
     .modal-actions .btn svg { width: 16px; height: 16px; margin-left: 4px; }
 
+    /* === Sport Pills === */
+    .sport-pill {
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s ease;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.45);
+      user-select: none;
+    }
+    .sport-pill:hover { border-color: rgba(242,101,34,0.3); color: rgba(255,255,255,0.7); }
+    .sport-pill.active {
+      background: rgba(242,101,34,0.15);
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+    .sport-pill-all {
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s ease;
+      background: rgba(255,255,255,0.02);
+      border: 1px dashed rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.35);
+      user-select: none;
+    }
+    .sport-pill-all:hover { border-color: rgba(242,101,34,0.3); color: rgba(255,255,255,0.6); }
+    .sport-pill-all.active {
+      background: rgba(242,101,34,0.12);
+      border-style: solid;
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+
+    @media (max-width: 768px) {
+      .container > div[style*="grid-template-columns:1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+        gap: 32px !important;
+      }
+    }
+
     /* === Footer === */
     .footer {
       background: var(--navy);
@@ -569,62 +615,96 @@
   </section>
 
   <!-- Email Capture -->
-  <section style="padding:70px 0;background:linear-gradient(160deg, var(--navy-mid), var(--navy-dark));border-top:1px solid rgba(255,255,255,0.03);">
-    <div class="container" style="max-width:640px;text-align:center;">
-      <div style="width:56px;height:56px;background:linear-gradient(135deg,var(--orange),var(--orange-hover));border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 4px 16px rgba(242,101,34,0.3);">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      </div>
-      <h2 style="margin-bottom:8px;font-size:1.8rem;">Get Auburn Business Picks for Every Away Game</h2>
-      <p style="color:rgba(255,255,255,0.45);font-size:0.95rem;margin-bottom:28px;">We'll send you Auburn-owned businesses near every away game city. Pick your sports below.</p>
+  <section style="padding:80px 0;background:linear-gradient(160deg, var(--navy-mid), var(--navy-dark));border-top:1px solid rgba(255,255,255,0.03);">
+    <div class="container" style="max-width:720px;">
 
-      <form id="subscribe-form" onsubmit="return handleSubscribe(event)">
-        <!-- Email -->
-        <div style="max-width:480px;margin:0 auto 24px;">
-          <input type="email" id="sub-email" required placeholder="Your email address" style="width:100%;padding:14px 16px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#fff;font-size:0.95rem;outline:none;font-family:inherit;transition:0.25s ease;" onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+      <!-- Two column layout -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;">
+
+        <!-- Left: Info -->
+        <div>
+          <div style="width:48px;height:48px;background:linear-gradient(135deg,var(--orange),var(--orange-hover));border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:0 4px 16px rgba(242,101,34,0.25);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <h2 style="font-size:1.6rem;margin-bottom:10px;line-height:1.2;">Get Auburn Business Picks for Every Away Game</h2>
+          <p style="color:rgba(255,255,255,0.45);font-size:0.9rem;line-height:1.7;margin-bottom:20px;">Before every away game, we'll email you Auburn-owned businesses near that city — restaurants, shops, and services run by the Auburn family.</p>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:28px;height:28px;background:rgba(242,101,34,0.1);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F26522" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <span style="color:rgba(255,255,255,0.6);font-size:0.85rem;">Businesses near every away game city</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:28px;height:28px;background:rgba(242,101,34,0.1);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F26522" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <span style="color:rgba(255,255,255,0.6);font-size:0.85rem;">Only the sports you care about</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:28px;height:28px;background:rgba(242,101,34,0.1);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F26522" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <span style="color:rgba(255,255,255,0.6);font-size:0.85rem;">Support Auburn wherever you travel</span>
+            </div>
+          </div>
         </div>
 
-        <!-- Sport Selection -->
-        <p style="color:var(--orange);font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;">Select Your Sports</p>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:520px;margin:0 auto 28px;" id="sport-checks">
-          <label style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;cursor:pointer;transition:0.25s ease;font-size:0.85rem;color:rgba(255,255,255,0.6);" class="sport-label">
-            <input type="checkbox" name="sport" value="Football" checked style="accent-color:#F26522;width:16px;height:16px;"> Football
-          </label>
-          <label style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;cursor:pointer;transition:0.25s ease;font-size:0.85rem;color:rgba(255,255,255,0.6);" class="sport-label">
-            <input type="checkbox" name="sport" value="Basketball" checked style="accent-color:#F26522;width:16px;height:16px;"> Basketball
-          </label>
-          <label style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;cursor:pointer;transition:0.25s ease;font-size:0.85rem;color:rgba(255,255,255,0.6);" class="sport-label">
-            <input type="checkbox" name="sport" value="Baseball" style="accent-color:#F26522;width:16px;height:16px;"> Baseball
-          </label>
-          <label style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;cursor:pointer;transition:0.25s ease;font-size:0.85rem;color:rgba(255,255,255,0.6);" class="sport-label">
-            <input type="checkbox" name="sport" value="Softball" style="accent-color:#F26522;width:16px;height:16px;"> Softball
-          </label>
-          <label style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;cursor:pointer;transition:0.25s ease;font-size:0.85rem;color:rgba(255,255,255,0.6);" class="sport-label">
-            <input type="checkbox" name="sport" value="Gymnastics" style="accent-color:#F26522;width:16px;height:16px;"> Gymnastics
-          </label>
-          <label style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;cursor:pointer;transition:0.25s ease;font-size:0.85rem;color:rgba(255,255,255,0.6);" class="sport-label">
-            <input type="checkbox" name="sport" value="Soccer" style="accent-color:#F26522;width:16px;height:16px;"> Soccer
-          </label>
-          <label style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;cursor:pointer;transition:0.25s ease;font-size:0.85rem;color:rgba(255,255,255,0.6);" class="sport-label">
-            <input type="checkbox" name="sport" value="Swimming" style="accent-color:#F26522;width:16px;height:16px;"> Swimming & Diving
-          </label>
-          <label style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;cursor:pointer;transition:0.25s ease;font-size:0.85rem;color:rgba(255,255,255,0.6);" class="sport-label">
-            <input type="checkbox" name="sport" value="Track" style="accent-color:#F26522;width:16px;height:16px;"> Track & Field
-          </label>
-          <label style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;cursor:pointer;transition:0.25s ease;font-size:0.85rem;color:rgba(255,255,255,0.6);" class="sport-label">
-            <input type="checkbox" name="sport" value="All" style="accent-color:#F26522;width:16px;height:16px;"> All Sports
-          </label>
-        </div>
+        <!-- Right: Form -->
+        <div style="background:linear-gradient(160deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:28px;">
+          <form id="subscribe-form" onsubmit="return handleSubscribe(event)">
 
-        <button type="submit" class="btn btn-primary" id="sub-btn" style="padding:14px 36px;font-size:1rem;">War Eagle — Subscribe</button>
-      </form>
+            <!-- Email -->
+            <div style="margin-bottom:18px;">
+              <label style="display:block;font-size:0.7rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Email</label>
+              <input type="email" id="sub-email" required placeholder="you@email.com" style="width:100%;padding:12px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#fff;font-size:0.9rem;outline:none;font-family:inherit;transition:0.25s ease;" onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+            </div>
 
-      <!-- Success -->
-      <div id="sub-success" style="display:none;">
-        <div style="width:56px;height:56px;background:#22c55e;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            <!-- Industry Preference -->
+            <div style="margin-bottom:18px;">
+              <label style="display:block;font-size:0.7rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">I'm interested in</label>
+              <select id="sub-industry" style="width:100%;padding:12px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#fff;font-size:0.9rem;outline:none;font-family:inherit;transition:0.25s ease;" onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+                <option value="All" style="background:#03244d;">All Business Types</option>
+                <option value="Food & Beverage" style="background:#03244d;">Restaurants & Food</option>
+                <option value="Automotive" style="background:#03244d;">Automotive</option>
+                <option value="Healthcare" style="background:#03244d;">Healthcare & Dental</option>
+                <option value="Home Services" style="background:#03244d;">Home Services</option>
+                <option value="Legal" style="background:#03244d;">Legal</option>
+                <option value="Financial Services" style="background:#03244d;">Financial Services</option>
+                <option value="Technology" style="background:#03244d;">Technology</option>
+                <option value="Real Estate" style="background:#03244d;">Real Estate</option>
+                <option value="Health & Fitness" style="background:#03244d;">Health & Fitness</option>
+              </select>
+            </div>
+
+            <!-- Sports -->
+            <div style="margin-bottom:20px;">
+              <label style="display:block;font-size:0.7rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Sports</label>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;" id="sport-checks">
+                <span class="sport-pill active" data-sport="Football" onclick="toggleSport(this)">Football</span>
+                <span class="sport-pill active" data-sport="Basketball" onclick="toggleSport(this)">Basketball</span>
+                <span class="sport-pill" data-sport="Baseball" onclick="toggleSport(this)">Baseball</span>
+                <span class="sport-pill" data-sport="Softball" onclick="toggleSport(this)">Softball</span>
+                <span class="sport-pill" data-sport="Gymnastics" onclick="toggleSport(this)">Gymnastics</span>
+                <span class="sport-pill" data-sport="Soccer" onclick="toggleSport(this)">Soccer</span>
+                <span class="sport-pill" data-sport="Swimming" onclick="toggleSport(this)">Swim & Dive</span>
+                <span class="sport-pill" data-sport="Track" onclick="toggleSport(this)">Track & Field</span>
+                <span class="sport-pill-all" data-sport="All" onclick="toggleAllSports(this)">All Sports</span>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="sub-btn" style="width:100%;padding:14px;font-size:0.95rem;justify-content:center;">War Eagle — Subscribe</button>
+          </form>
+
+          <!-- Success -->
+          <div id="sub-success" style="display:none;text-align:center;padding:20px 0;">
+            <div style="width:48px;height:48px;background:#22c55e;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h3 style="font-size:1.1rem;margin-bottom:4px;">You're In! War Eagle!</h3>
+            <p style="color:rgba(255,255,255,0.4);font-size:0.82rem;">We'll email you before every away game.</p>
+          </div>
         </div>
-        <h3 style="margin-bottom:6px;">You're In! War Eagle!</h3>
-        <p style="color:rgba(255,255,255,0.45);font-size:0.9rem;">We'll send you Auburn business recommendations before every away game.</p>
       </div>
     </div>
   </section>
@@ -662,26 +742,27 @@
       window.location.href = `directory.html${params.toString() ? '?' + params.toString() : ''}`;
     }
 
-    // "All Sports" toggle
-    document.querySelector('input[value="All"]').addEventListener('change', function() {
-      document.querySelectorAll('input[name="sport"]').forEach(cb => {
-        if (cb.value !== 'All') cb.checked = this.checked;
-      });
-    });
+    // Sport pill toggle
+    function toggleSport(el) {
+      el.classList.toggle('active');
+      // Uncheck "All" if any individual is toggled off
+      const allPill = document.querySelector('.sport-pill-all');
+      if (!el.classList.contains('active') && allPill) allPill.classList.remove('active');
+    }
 
-    // Uncheck "All" if any individual sport is unchecked
-    document.querySelectorAll('input[name="sport"]').forEach(cb => {
-      if (cb.value !== 'All') {
-        cb.addEventListener('change', function() {
-          if (!this.checked) document.querySelector('input[value="All"]').checked = false;
-        });
-      }
-    });
+    function toggleAllSports(el) {
+      const isActive = el.classList.toggle('active');
+      document.querySelectorAll('.sport-pill').forEach(p => {
+        if (isActive) p.classList.add('active');
+        else p.classList.remove('active');
+      });
+    }
 
     async function handleSubscribe(e) {
       e.preventDefault();
       const email = document.getElementById('sub-email').value.trim();
-      const sports = [...document.querySelectorAll('input[name="sport"]:checked')].map(c => c.value).filter(v => v !== 'All');
+      const sports = [...document.querySelectorAll('.sport-pill.active')].map(p => p.dataset.sport);
+      const industry = document.getElementById('sub-industry').value;
 
       if (sports.length === 0) {
         alert('Please select at least one sport.');
@@ -694,7 +775,7 @@
 
       try {
         const { data, error } = await db.from('subscribers').upsert(
-          { email: email, sports: sports },
+          { email: email, sports: sports, preferred_industry: industry },
           { onConflict: 'email' }
         );
         if (error) throw error;
