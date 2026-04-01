@@ -264,6 +264,7 @@
           <h1>Admin <span>Dashboard</span></h1>
           <p>Manage applications and business listings</p>
         </div>
+        <button class="btn btn-outline btn-sm" onclick="showChangePassword()" style="margin-right:8px;">Change Password</button>
         <button class="btn btn-outline btn-sm" onclick="handleLogout()">Sign Out</button>
       </div>
     </section>
@@ -321,6 +322,27 @@
     </div>
   </div>
 
+  <!-- Change Password Modal -->
+  <div id="pw-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center;">
+    <div style="background:var(--navy-mid,#071e3d);border:1px solid rgba(242,101,34,0.12);border-radius:14px;padding:32px;max-width:400px;width:90%;margin:auto;position:relative;top:50%;transform:translateY(-50%);">
+      <h3 style="color:#fff;font-size:1.1rem;margin-bottom:4px;">Change Password</h3>
+      <p style="color:rgba(255,255,255,0.4);font-size:0.82rem;margin-bottom:20px;">Enter your new password below.</p>
+      <div style="margin-bottom:14px;">
+        <label style="display:block;font-size:0.78rem;font-weight:600;color:rgba(255,255,255,0.5);margin-bottom:5px;">New Password</label>
+        <input type="password" id="new-pw" placeholder="Enter new password" style="width:100%;padding:10px 14px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#fff;font-size:0.9rem;outline:none;font-family:inherit;" onfocus="this.style.borderColor='#F26522'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+      </div>
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-size:0.78rem;font-weight:600;color:rgba(255,255,255,0.5);margin-bottom:5px;">Confirm Password</label>
+        <input type="password" id="confirm-pw" placeholder="Confirm new password" style="width:100%;padding:10px 14px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#fff;font-size:0.9rem;outline:none;font-family:inherit;" onfocus="this.style.borderColor='#F26522'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="closeChangePassword()" style="flex:1;padding:10px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85rem;cursor:pointer;">Cancel</button>
+        <button onclick="submitChangePassword()" style="flex:1;padding:10px;border-radius:8px;background:#F26522;border:none;color:#fff;font-weight:600;font-size:0.85rem;cursor:pointer;">Update Password</button>
+      </div>
+      <div id="pw-msg" style="margin-top:12px;font-size:0.82rem;text-align:center;display:none;"></div>
+    </div>
+  </div>
+
   <footer class="footer">
     <div class="container">
       <p>&copy; 2026 Auburn Business Network. Admin Panel.</p>
@@ -358,6 +380,54 @@
       }
       return false;
     }
+
+    function showChangePassword() {
+      document.getElementById('pw-modal').style.display = 'block';
+      document.getElementById('new-pw').value = '';
+      document.getElementById('confirm-pw').value = '';
+      document.getElementById('pw-msg').style.display = 'none';
+    }
+
+    function closeChangePassword() {
+      document.getElementById('pw-modal').style.display = 'none';
+    }
+
+    async function submitChangePassword() {
+      var newPw = document.getElementById('new-pw').value;
+      var confirmPw = document.getElementById('confirm-pw').value;
+      var msg = document.getElementById('pw-msg');
+
+      if (!newPw || newPw.length < 6) {
+        msg.style.display = 'block';
+        msg.style.color = '#ef4444';
+        msg.textContent = 'Password must be at least 6 characters.';
+        return;
+      }
+      if (newPw !== confirmPw) {
+        msg.style.display = 'block';
+        msg.style.color = '#ef4444';
+        msg.textContent = 'Passwords do not match.';
+        return;
+      }
+
+      try {
+        var result = await db.auth.updateUser({ password: newPw });
+        if (result.error) throw result.error;
+        msg.style.display = 'block';
+        msg.style.color = '#22c55e';
+        msg.textContent = 'Password updated successfully!';
+        setTimeout(closeChangePassword, 1500);
+      } catch (err) {
+        msg.style.display = 'block';
+        msg.style.color = '#ef4444';
+        msg.textContent = 'Error: ' + (err.message || 'Failed to update password');
+      }
+    }
+
+    // Close modal on backdrop click
+    document.getElementById('pw-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeChangePassword();
+    });
 
     async function handleLogout() {
       await adminSignOut();
