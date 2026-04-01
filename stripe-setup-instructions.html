@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stripe Setup Instructions — Buy Auburn</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#020e1f;color:#fff;min-height:100vh;padding:40px 20px}
+.container{max-width:700px;margin:0 auto}
+.header{text-align:center;margin-bottom:48px}
+.logo{margin-bottom:16px}
+.logo img{width:200px;height:auto}
+h1{font-size:1.8rem;margin-bottom:8px}
+.subtitle{color:rgba(255,255,255,0.5);font-size:0.95rem}
+h2{font-size:1.3rem;color:#F26522;margin:40px 0 20px;padding-bottom:10px;border-bottom:1px solid rgba(242,101,34,0.15)}
+.step-group{margin-bottom:32px}
+.step{display:flex;gap:16px;margin-bottom:16px}
+.step-num{width:32px;height:32px;background:rgba(242,101,34,0.1);border:1px solid rgba(242,101,34,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;color:#F26522;flex-shrink:0}
+.step-text{font-size:0.92rem;color:rgba(255,255,255,0.75);line-height:1.7}
+.step-text strong{color:#fff}
+.step-text code{background:rgba(242,101,34,0.1);color:#f59e0b;padding:2px 8px;border-radius:4px;font-size:0.85rem;font-family:'SF Mono',Consolas,monospace}
+.card{background:#071e3d;border:1px solid rgba(242,101,34,0.12);border-radius:12px;margin-bottom:16px;overflow:hidden}
+.card-header{padding:14px 20px;background:rgba(0,0,0,0.2);border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;gap:10px}
+.card-num{width:26px;height:26px;background:#F26522;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.75rem;flex-shrink:0}
+.card-title{font-weight:700;font-size:0.9rem}
+.card-body{padding:16px 20px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:0.65rem;font-weight:700;color:#F26522;text-transform:uppercase;letter-spacing:0.08em;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.06)}
+td{padding:10px;font-size:0.85rem;color:rgba(255,255,255,0.8);border-bottom:1px solid rgba(255,255,255,0.03)}
+td.mono{font-family:'SF Mono',Consolas,monospace;font-size:0.8rem;color:#f59e0b}
+.note{margin-top:24px;padding:20px;background:rgba(242,101,34,0.06);border:1px solid rgba(242,101,34,0.15);border-radius:10px;font-size:0.85rem;color:rgba(255,255,255,0.6);line-height:1.7}
+.note strong{color:#F26522}
+.warning{background:rgba(239,68,68,0.06);border-color:rgba(239,68,68,0.15)}
+.warning strong{color:#ef4444}
+.screenshot-note{background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.15);border-radius:8px;padding:14px 16px;font-size:0.82rem;color:rgba(255,255,255,0.5);margin:12px 0;line-height:1.6}
+.screenshot-note strong{color:#60a5fa}
+.footer{margin-top:48px;text-align:center;color:rgba(255,255,255,0.2);font-size:0.8rem}
+.divider{height:1px;background:rgba(255,255,255,0.04);margin:40px 0}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <div class="logo"><img src="https://buyauburn.com/assets/images/logo-v3.svg" alt="Buy Auburn"></div>
+  <h1>Stripe Payment Setup</h1>
+  <p class="subtitle">Follow these steps to set up payments for the Auburn Business Network</p>
+</div>
+
+<!-- PART 1: CREATE STRIPE ACCOUNT -->
+<h2>Part 1: Create Your Stripe Account</h2>
+
+<div class="step-group">
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-text">Go to <strong>stripe.com</strong> and click <strong>"Start now"</strong> to create a free account.</div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-text">Enter your <strong>email address</strong> and create a password.</div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-text">Complete the business verification — Stripe will ask for your <strong>business name</strong>, <strong>EIN or SSN</strong>, and <strong>business address</strong>.</div>
+  </div>
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-text">Add your <strong>bank account</strong> (routing number + account number) so Stripe can deposit payments to you.</div>
+  </div>
+</div>
+
+<div class="note">
+  <strong>Why do you need your own Stripe account?</strong> This ensures all listing fee payments ($300/yr) go directly into your bank account. Williams Digital's Stripe account is separate and only handles the platform fee.
+</div>
+
+<!-- PART 2: CREATE PAYMENT LINKS -->
+<h2>Part 2: Create 4 Payment Links</h2>
+
+<p style="color:rgba(255,255,255,0.55);font-size:0.9rem;margin-bottom:20px;">You need 4 payment links for different pricing tiers that the admin can select when approving businesses.</p>
+
+<div class="step-group">
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-text">In Stripe, go to <strong>Product catalog</strong> (left sidebar) → click <strong>+ Add product</strong></div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-text">Create a product called <strong>"Auburn Business Network — Annual Listing"</strong></div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-text">Add <strong>4 prices</strong> to this product (click "+ Add another price" for each):</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <table>
+      <tr><th>Price Name</th><th>Amount</th><th>Billing</th></tr>
+      <tr><td>Full Price</td><td class="mono">$300.00</td><td>Recurring / Year</td></tr>
+      <tr><td>25% Off</td><td class="mono">$225.00</td><td>Recurring / Year</td></tr>
+      <tr><td>50% Off</td><td class="mono">$150.00</td><td>Recurring / Year</td></tr>
+      <tr><td>75% Off</td><td class="mono">$75.00</td><td>Recurring / Year</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="step-group">
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-text">For each price, go to <strong>Payment Links</strong> (left sidebar) → <strong>+ Create payment link</strong> → select the price → <strong>Create link</strong></div>
+  </div>
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-text">Make sure <strong>"Collect email address"</strong> is turned ON for each payment link (this is how we match payments to businesses)</div>
+  </div>
+</div>
+
+<div class="screenshot-note">
+  <strong>Send us all 4 payment links.</strong> They will look like: <code>https://buy.stripe.com/xxxxxxx</code>. We'll add them to the admin dashboard so the correct link is sent based on the pricing tier selected.
+</div>
+
+<!-- PART 3: SET UP WEBHOOK -->
+<h2>Part 3: Set Up the Webhook</h2>
+
+<p style="color:rgba(255,255,255,0.55);font-size:0.9rem;margin-bottom:20px;">The webhook tells our system when a business has paid, so their listing goes live automatically.</p>
+
+<div class="step-group">
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-text">In Stripe, go to <strong>Developers</strong> (bottom-left or top-right) → <strong>Webhooks</strong></div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-text">Click <strong>"+ Add endpoint"</strong></div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-text">Enter this URL as the endpoint:</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <table>
+      <tr><th>Field</th><th>Value</th></tr>
+      <tr><td>Endpoint URL</td><td class="mono">https://buyauburn.com/api/stripe-webhook</td></tr>
+      <tr><td>Events to listen to</td><td class="mono">checkout.session.completed</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="step-group">
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-text">For "Events to send", click <strong>"+ Select events"</strong> → search for <strong>checkout.session.completed</strong> → check it → click <strong>"Add events"</strong></div>
+  </div>
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-text">Click <strong>"Add endpoint"</strong> to save</div>
+  </div>
+  <div class="step">
+    <div class="step-num">6</div>
+    <div class="step-text">After creating, click on the webhook endpoint → find <strong>"Signing secret"</strong> → click <strong>"Reveal"</strong> → copy it</div>
+  </div>
+</div>
+
+<div class="screenshot-note">
+  <strong>Send us the webhook signing secret.</strong> It will look like: <code>whsec_xxxxxxxxxxxxxxx</code>. We need this to verify that payment notifications are really from Stripe.
+</div>
+
+<div class="divider"></div>
+
+<!-- SUMMARY -->
+<h2>Summary: What to Send Us</h2>
+
+<p style="color:rgba(255,255,255,0.55);font-size:0.9rem;margin-bottom:20px;">Once you've completed all steps above, send us these 5 items:</p>
+
+<div class="card">
+  <div class="card-body">
+    <table>
+      <tr><th>#</th><th>Item</th><th>Example</th></tr>
+      <tr><td>1</td><td>Full Price payment link ($300/yr)</td><td class="mono">https://buy.stripe.com/xxx</td></tr>
+      <tr><td>2</td><td>25% Off payment link ($225/yr)</td><td class="mono">https://buy.stripe.com/xxx</td></tr>
+      <tr><td>3</td><td>50% Off payment link ($150/yr)</td><td class="mono">https://buy.stripe.com/xxx</td></tr>
+      <tr><td>4</td><td>75% Off payment link ($75/yr)</td><td class="mono">https://buy.stripe.com/xxx</td></tr>
+      <tr><td>5</td><td>Webhook signing secret</td><td class="mono">whsec_xxxxxxxxx</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="note">
+  <strong>Once we receive these 5 items:</strong> We'll configure the admin dashboard to send the correct payment link when a business is approved, and payments will automatically activate business listings on the directory. The entire flow will be hands-off.
+</div>
+
+<div class="note warning">
+  <strong>Important:</strong> Do NOT share your Stripe secret key (starts with <code>sk_</code>). We only need the payment links and the webhook signing secret (starts with <code>whsec_</code>).
+</div>
+
+<div class="footer">
+  <p>Prepared by Williams Digital for Buy Auburn — April 2026</p>
+</div>
+
+</div>
+</body>
+</html>
