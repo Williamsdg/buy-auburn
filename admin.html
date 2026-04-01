@@ -168,6 +168,26 @@
     .app-card-contact strong { color: var(--amber); font-weight: 600; }
     .app-card-actions { padding: 16px 24px; display: flex; gap: 8px; }
     .app-card-actions .action-btn { flex: 1; text-align: center; padding: 10px 14px; font-size: 0.82rem; border-radius: 8px; }
+
+    .pricing-pill {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s ease;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.4);
+      flex: 1;
+      text-align: center;
+    }
+    .pricing-pill:hover { border-color: rgba(245,158,11,0.3); color: rgba(255,255,255,0.6); }
+    .pricing-pill.active {
+      background: rgba(245,158,11,0.12);
+      border-color: var(--amber, #f59e0b);
+      color: #f59e0b;
+    }
     .empty-state { text-align: center; padding: 60px 24px; color: rgba(255,255,255,0.3); font-size: 0.95rem; }
 
     @media (max-width: 900px) {
@@ -410,6 +430,17 @@
             <span><strong>Address:</strong> ${app.address}</span>
           </div>
           ${app.status === 'pending' ? `
+          <div style="padding:12px 24px;border-top:1px solid rgba(255,255,255,0.04);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+              <label style="font-size:0.7rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.06em;white-space:nowrap;">Pricing</label>
+              <div style="display:flex;gap:4px;flex:1;" id="pricing-${app.id}">
+                <button class="pricing-pill active" data-tier="full" onclick="selectPricing('${app.id}','full',this)">$300/yr</button>
+                <button class="pricing-pill" data-tier="25off" onclick="selectPricing('${app.id}','25off',this)">25% Off</button>
+                <button class="pricing-pill" data-tier="50off" onclick="selectPricing('${app.id}','50off',this)">50% Off</button>
+                <button class="pricing-pill" data-tier="75off" onclick="selectPricing('${app.id}','75off',this)">75% Off</button>
+              </div>
+            </div>
+          </div>
           <div class="app-card-actions">
             <button class="action-btn approve" onclick="approveApp('${app.id}')">Approve</button>
             <button class="action-btn waive-btn" onclick="waiveApp('${app.id}')">Waive Fee</button>
@@ -449,13 +480,53 @@
       `).join('');
     }
 
+    // Stripe payment links per pricing tier
+    // UPDATE THESE when Buy Auburn sends the links
+    const PRICING_LINKS = {
+      full: 'STRIPE_LINK_FULL_PRICE',      // $300/yr
+      '25off': 'STRIPE_LINK_25_OFF',        // $225/yr
+      '50off': 'STRIPE_LINK_50_OFF',        // $150/yr
+      '75off': 'STRIPE_LINK_75_OFF'         // $75/yr
+    };
+
+    const PRICING_LABELS = {
+      full: '$300/year',
+      '25off': '$225/year (25% off)',
+      '50off': '$150/year (50% off)',
+      '75off': '$75/year (75% off)'
+    };
+
+    // Track selected pricing per application
+    const selectedPricing = {};
+
+    function selectPricing(appId, tier, btn) {
+      selectedPricing[appId] = tier;
+      var container = document.getElementById('pricing-' + appId);
+      container.querySelectorAll('.pricing-pill').forEach(function(p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+    }
+
     async function approveApp(id) {
       const app = _applications.find(a => a.id === id);
       if (!app) return;
-      if (!confirm('Approve "' + app.business_name + '" and create their listing?')) return;
+
+      const tier = selectedPricing[id] || 'full';
+      const priceLabel = PRICING_LABELS[tier];
+      const paymentLink = PRICING_LINKS[tier];
+
+      if (!confirm('Approve "' + app.business_name + '" at ' + priceLabel + '?')) return;
+
       try {
         await approveAndCreateBusiness(app);
-        alert(app.business_name + ' approved! Listing created (unpaid). Send them the payment link.');
+
+        if (paymentLink && !paymentLink.startsWith('STRIPE_LINK')) {
+          // Copy payment link to clipboard
+          try { await navigator.clipboard.writeText(paymentLink); } catch(e) {}
+          alert(app.business_name + ' approved at ' + priceLabel + '!\n\nPayment link copied to clipboard. Send it to ' + app.email);
+        } else {
+          alert(app.business_name + ' approved at ' + priceLabel + '!\n\nStripe link not set yet for this tier. Update PRICING_LINKS in admin.html.');
+        }
+
         await refreshData();
       } catch (err) {
         console.error(err);
