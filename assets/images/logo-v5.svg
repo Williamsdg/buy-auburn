@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="v5-navy-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0a3a6b"/>
+      <stop offset="100%" stop-color="#03244d"/>
+    </linearGradient>
+    <linearGradient id="v5-orange-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F26522"/>
+      <stop offset="100%" stop-color="#d4550f"/>
+    </linearGradient>
+    <clipPath id="v5-rect-clip">
+      <rect x="10" y="10" width="380" height="380" rx="30"/>
+    </clipPath>
+  </defs>
+
+  <!-- Rounded rectangle background -->
+  <rect x="10" y="10" width="380" height="380" rx="30" fill="url(#v5-navy-grad)"/>
+
+  <!-- Subtle inner border -->
+  <rect x="10" y="10" width="380" height="380" rx="30" fill="none" stroke="#0a3a6b" stroke-width="2"/>
+
+  <!-- Faint Samford Hall / campus silhouette -->
+  <g clip-path="url(#v5-rect-clip)" opacity="0.055" fill="#FFFFFF">
+    <!-- Ground -->
+    <rect x="10" y="280" width="380" height="60"/>
+    <!-- Samford Hall -->
+    <rect x="140" y="200" width="120" height="80"/>
+    <rect x="178" y="130" width="44" height="70"/>
+    <polygon points="200,90 178,130 222,130"/>
+    <ellipse cx="200" cy="133" rx="25" ry="8"/>
+    <!-- Left wing -->
+    <rect x="70" y="230" width="70" height="50"/>
+    <rect x="75" y="222" width="60" height="8"/>
+    <!-- Right wing -->
+    <rect x="260" y="230" width="70" height="50"/>
+    <rect x="265" y="222" width="60" height="8"/>
+    <!-- Trees -->
+    <circle cx="45" cy="248" r="20"/>
+    <circle cx="355" cy="248" r="20"/>
+    <circle cx="135" cy="240" r="12"/>
+    <circle cx="265" cy="240" r="12"/>
+  </g>
+
+  <!-- Large "BUY" text in white -->
+  <text x="200" y="185" font-family="Arial Black, 'Helvetica Neue', Arial, sans-serif" font-weight="900" font-size="105" fill="#FFFFFF" text-anchor="middle" letter-spacing="8">BUY</text>
+
+  <!-- Large "AUBURN" text in orange -->
+  <text x="200" y="270" font-family="Arial Black, 'Helvetica Neue', Arial, sans-serif" font-weight="900" font-size="72" fill="#F26522" text-anchor="middle" letter-spacing="4">AUBURN</text>
+
+  <!-- Orange underline accent -->
+  <rect x="80" y="285" width="240" height="4" rx="2" fill="url(#v5-orange-grad)"/>
+
+  <!-- SUPPORT THE AUBURN FAMILY tagline -->
+  <text x="200" y="330" font-family="Arial, Helvetica, sans-serif" font-weight="400" font-size="13.5" fill="#FFFFFF" text-anchor="middle" letter-spacing="3" opacity="0.85">SUPPORT THE AUBURN FAMILY</text>
+</svg>

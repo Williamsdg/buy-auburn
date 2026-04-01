@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="v1-navy-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0a3a6b"/>
+      <stop offset="100%" stop-color="#03244d"/>
+    </linearGradient>
+    <clipPath id="v1-circle-clip">
+      <circle cx="200" cy="200" r="185"/>
+    </clipPath>
+  </defs>
+
+  <!-- Circular badge background -->
+  <circle cx="200" cy="200" r="195" fill="#03244d"/>
+  <circle cx="200" cy="200" r="185" fill="url(#v1-navy-grad)"/>
+
+  <!-- Orange accent ring -->
+  <circle cx="200" cy="200" r="185" fill="none" stroke="#F26522" stroke-width="3"/>
+
+  <!-- Faint Samford Hall / Auburn campus silhouette at very low opacity -->
+  <g clip-path="url(#v1-circle-clip)" opacity="0.06" fill="#FFFFFF">
+    <!-- Ground line -->
+    <rect x="20" y="280" width="360" height="40"/>
+    <!-- Samford Hall main building -->
+    <rect x="140" y="200" width="120" height="80"/>
+    <!-- Samford Hall tower -->
+    <rect x="175" y="130" width="50" height="70"/>
+    <!-- Tower spire -->
+    <polygon points="200,90 175,130 225,130"/>
+    <!-- Tower dome -->
+    <ellipse cx="200" cy="133" rx="28" ry="10"/>
+    <!-- Left wing -->
+    <rect x="80" y="230" width="60" height="50"/>
+    <rect x="85" y="220" width="50" height="10"/>
+    <!-- Right wing -->
+    <rect x="260" y="230" width="60" height="50"/>
+    <rect x="265" y="220" width="50" height="10"/>
+    <!-- Windows on main -->
+    <rect x="155" y="215" width="12" height="18"/>
+    <rect x="175" y="215" width="12" height="18"/>
+    <rect x="195" y="215" width="12" height="18"/>
+    <rect x="215" y="215" width="12" height="18"/>
+    <rect x="235" y="215" width="12" height="18"/>
+    <!-- Trees -->
+    <circle cx="55" cy="245" r="20"/>
+    <circle cx="345" cy="245" r="20"/>
+    <circle cx="45" cy="260" r="15"/>
+    <circle cx="355" cy="255" r="18"/>
+  </g>
+
+  <!-- Stylized Eagle Wing in orange -->
+  <g transform="translate(200, 130)" fill="#F26522">
+    <!-- Main wing shape -->
+    <path d="M0,-55 C15,-50 40,-30 55,-5 C50,-15 35,-25 25,-30 C40,-15 55,5 60,25 C50,10 35,0 25,-5 C35,10 42,30 40,45 C32,30 22,18 15,12 C20,28 18,42 12,50 C8,38 2,28 -2,22 C-2,35 -8,45 -15,50 C-13,38 -14,28 -18,22 C-22,30 -28,38 -35,45 C-30,30 -28,15 -25,-5 C-35,5 -48,15 -60,25 C-52,5 -38,-15 -25,-30 C-35,-22 -48,-15 -55,-5 C-38,-30 -15,-50 0,-55Z"/>
+  </g>
+
+  <!-- BUY AUBURN text -->
+  <text x="200" y="220" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900" font-size="52" fill="#FFFFFF" text-anchor="middle" letter-spacing="4">BUY</text>
+  <text x="200" y="272" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900" font-size="48" fill="#F26522" text-anchor="middle" letter-spacing="3">AUBURN</text>
+
+  <!-- Orange underline accent -->
+  <line x1="100" y1="282" x2="300" y2="282" stroke="#F26522" stroke-width="2"/>
+
+  <!-- SUPPORT THE AUBURN FAMILY tagline -->
+  <text x="200" y="315" font-family="Arial, Helvetica, sans-serif" font-weight="400" font-size="13" fill="#FFFFFF" text-anchor="middle" letter-spacing="3" opacity="0.85">SUPPORT THE AUBURN FAMILY</text>
+</svg>

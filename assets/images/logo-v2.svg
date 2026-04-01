@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="v2-navy-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0a3a6b"/>
+      <stop offset="100%" stop-color="#03244d"/>
+    </linearGradient>
+    <linearGradient id="v2-orange-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F26522"/>
+      <stop offset="100%" stop-color="#d4550f"/>
+    </linearGradient>
+    <clipPath id="v2-shield-clip">
+      <path d="M200,30 L340,80 L340,230 C340,300 270,360 200,380 C130,360 60,300 60,230 L60,80 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- Outer background -->
+  <rect width="400" height="400" fill="#03244d" rx="10"/>
+
+  <!-- Shield shape - orange border -->
+  <path d="M200,25 L345,77 L345,232 C345,305 272,365 200,385 C128,365 55,305 55,232 L55,77 Z" fill="url(#v2-orange-grad)"/>
+
+  <!-- Shield inner fill - navy -->
+  <path d="M200,35 L335,83 L335,230 C335,298 266,355 200,375 C134,355 65,298 65,230 L65,83 Z" fill="url(#v2-navy-grad)"/>
+
+  <!-- Faint Samford Hall / campus silhouette -->
+  <g clip-path="url(#v2-shield-clip)" opacity="0.07" fill="#FFFFFF">
+    <!-- Ground -->
+    <rect x="50" y="260" width="300" height="50"/>
+    <!-- Samford Hall main body -->
+    <rect x="140" y="190" width="120" height="70"/>
+    <!-- Tower -->
+    <rect x="178" y="120" width="44" height="70"/>
+    <!-- Spire -->
+    <polygon points="200,80 178,120 222,120"/>
+    <!-- Dome cap -->
+    <ellipse cx="200" cy="123" rx="25" ry="8"/>
+    <!-- Left wing -->
+    <rect x="85" y="215" width="55" height="45"/>
+    <polygon points="85,215 112,200 140,215"/>
+    <!-- Right wing -->
+    <rect x="260" y="215" width="55" height="45"/>
+    <polygon points="260,215 288,200 315,215"/>
+    <!-- Columns on main -->
+    <rect x="152" y="200" width="5" height="55"/>
+    <rect x="167" y="200" width="5" height="55"/>
+    <rect x="182" y="200" width="5" height="55"/>
+    <rect x="197" y="200" width="5" height="55"/>
+    <rect x="212" y="200" width="5" height="55"/>
+    <rect x="227" y="200" width="5" height="55"/>
+    <rect x="242" y="200" width="5" height="55"/>
+    <!-- Trees -->
+    <circle cx="75" cy="235" r="18"/>
+    <circle cx="325" cy="235" r="18"/>
+  </g>
+
+  <!-- Decorative line above text -->
+  <line x1="120" y1="140" x2="280" y2="140" stroke="#F26522" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- BUY AUBURN text -->
+  <text x="200" y="195" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="50" fill="#FFFFFF" text-anchor="middle" letter-spacing="6">BUY</text>
+  <text x="200" y="248" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="44" fill="#F26522" text-anchor="middle" letter-spacing="4">AUBURN</text>
+
+  <!-- Decorative line below text -->
+  <line x1="120" y1="262" x2="280" y2="262" stroke="#F26522" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Small diamond accents -->
+  <polygon points="115,262 118,258 121,262 118,266" fill="#F26522" opacity="0.6"/>
+  <polygon points="279,262 282,258 285,262 282,266" fill="#F26522" opacity="0.6"/>
+
+  <!-- SUPPORT THE AUBURN FAMILY tagline -->
+  <text x="200" y="310" font-family="Arial, Helvetica, sans-serif" font-weight="400" font-size="11.5" fill="#FFFFFF" text-anchor="middle" letter-spacing="2.5" opacity="0.85">SUPPORT THE AUBURN FAMILY</text>
+</svg>

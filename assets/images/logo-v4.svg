@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="v4-navy-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0a3a6b"/>
+      <stop offset="100%" stop-color="#03244d"/>
+    </linearGradient>
+    <radialGradient id="v4-bg-glow" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#0a3a6b"/>
+      <stop offset="100%" stop-color="#03244d"/>
+    </radialGradient>
+    <clipPath id="v4-circle-clip">
+      <circle cx="200" cy="200" r="185"/>
+    </clipPath>
+  </defs>
+
+  <!-- Circular dark background -->
+  <circle cx="200" cy="200" r="195" fill="#03244d"/>
+  <circle cx="200" cy="200" r="185" fill="url(#v4-bg-glow)"/>
+
+  <!-- Thin orange ring -->
+  <circle cx="200" cy="200" r="185" fill="none" stroke="#F26522" stroke-width="2.5"/>
+
+  <!-- Faint Samford Hall / campus silhouette -->
+  <g clip-path="url(#v4-circle-clip)" opacity="0.06" fill="#FFFFFF">
+    <!-- Ground -->
+    <rect x="20" y="275" width="360" height="50"/>
+    <!-- Samford Hall -->
+    <rect x="140" y="200" width="120" height="75"/>
+    <rect x="178" y="130" width="44" height="70"/>
+    <polygon points="200,90 178,130 222,130"/>
+    <ellipse cx="200" cy="133" rx="25" ry="8"/>
+    <!-- Side buildings -->
+    <rect x="80" y="230" width="60" height="45"/>
+    <rect x="260" y="230" width="60" height="45"/>
+    <!-- Trees -->
+    <circle cx="55" cy="248" r="18"/>
+    <circle cx="345" cy="248" r="18"/>
+  </g>
+
+  <!-- Tiger Paw Print in orange -->
+  <g transform="translate(200, 145)" fill="#F26522">
+    <!-- Main pad -->
+    <ellipse cx="0" cy="20" rx="42" ry="35"/>
+    <!-- Toe pads -->
+    <ellipse cx="-38" cy="-22" rx="16" ry="19" transform="rotate(-15, -38, -22)"/>
+    <ellipse cx="-13" cy="-40" rx="15" ry="18" transform="rotate(-5, -13, -40)"/>
+    <ellipse cx="16" cy="-42" rx="15" ry="18" transform="rotate(5, 16, -42)"/>
+    <ellipse cx="40" cy="-26" rx="16" ry="19" transform="rotate(15, 40, -26)"/>
+  </g>
+
+  <!-- BUY AUBURN text -->
+  <text x="200" y="250" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900" font-size="50" fill="#FFFFFF" text-anchor="middle" letter-spacing="5">BUY</text>
+  <text x="200" y="300" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900" font-size="44" fill="#F26522" text-anchor="middle" letter-spacing="3">AUBURN</text>
+
+  <!-- Thin accent line -->
+  <line x1="110" y1="310" x2="290" y2="310" stroke="#F26522" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- SUPPORT THE AUBURN FAMILY tagline -->
+  <text x="200" y="338" font-family="Arial, Helvetica, sans-serif" font-weight="400" font-size="12" fill="#FFFFFF" text-anchor="middle" letter-spacing="2.5" opacity="0.85">SUPPORT THE AUBURN FAMILY</text>
+</svg>
