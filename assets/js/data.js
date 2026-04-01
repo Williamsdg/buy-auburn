@@ -79,7 +79,11 @@ async function submitApplication(formData) {
       email: formData.email,
       phone: formData.phone,
       auburn_connection: formData.auburnConnection,
-      logo_url: formData.logoUrl || null
+      logo_url: formData.logoUrl || null,
+      instagram: formData.instagram || null,
+      twitter: formData.twitter || null,
+      facebook: formData.facebook || null,
+      tiktok: formData.tiktok || null
     }]);
 
   if (error) throw error;
@@ -164,7 +168,11 @@ async function approveAndCreateBusiness(application) {
       status: 'active',
       payment_status: 'unpaid',
       application_id: application.id,
-      logo_url: application.logo_url || null
+      logo_url: application.logo_url || null,
+      instagram: application.instagram || null,
+      twitter: application.twitter || null,
+      facebook: application.facebook || null,
+      tiktok: application.tiktok || null
     }]);
 
   if (error) throw error;

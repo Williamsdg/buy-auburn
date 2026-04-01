@@ -158,6 +158,22 @@ function createBusinessCard(business) {
   if (business.website) {
     contactActions.push(`<a href="${business.website}" target="_blank" rel="noopener" class="contact-action" title="Website" onclick="event.stopPropagation()">${ICONS.globe}</a>`);
   }
+  if (business.instagram) {
+    const igUrl = business.instagram.startsWith('http') ? business.instagram : 'https://instagram.com/' + business.instagram.replace('@','');
+    contactActions.push(`<a href="${igUrl}" target="_blank" rel="noopener" class="contact-action" title="Instagram" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg></a>`);
+  }
+  if (business.facebook) {
+    const fbUrl = business.facebook.startsWith('http') ? business.facebook : 'https://facebook.com/' + business.facebook;
+    contactActions.push(`<a href="${fbUrl}" target="_blank" rel="noopener" class="contact-action" title="Facebook" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>`);
+  }
+  if (business.twitter) {
+    const xUrl = business.twitter.startsWith('http') ? business.twitter : 'https://x.com/' + business.twitter.replace('@','');
+    contactActions.push(`<a href="${xUrl}" target="_blank" rel="noopener" class="contact-action" title="X" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>`);
+  }
+  if (business.tiktok) {
+    const ttUrl = business.tiktok.startsWith('http') ? business.tiktok : 'https://tiktok.com/@' + business.tiktok.replace('@','');
+    contactActions.push(`<a href="${ttUrl}" target="_blank" rel="noopener" class="contact-action" title="TikTok" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.61a8.21 8.21 0 0 0 4.76 1.51v-3.45a4.85 4.85 0 0 1-1-.02z"/></svg></a>`);
+  }
 
   return `
     <div class="business-card" data-id="${business.id}" onclick="openBusinessModal('${business.id}')">
@@ -265,6 +281,14 @@ function openBusinessModal(id) {
           <p>${business.bio}</p>
         </div>
       </div>
+      ${(business.instagram || business.facebook || business.twitter || business.tiktok) ? `
+      <div style="padding:16px 32px;border-top:1px solid rgba(255,255,255,0.06);display:flex;gap:10px;align-items:center;">
+        <span style="font-size:0.75rem;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:1px;font-weight:600;">Follow</span>
+        ${business.instagram ? `<a href="${business.instagram.startsWith('http') ? business.instagram : 'https://instagram.com/' + business.instagram.replace('@','')}" target="_blank" rel="noopener" style="width:34px;height:34px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:8px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);transition:0.2s;" onmouseover="this.style.background='#E1306C';this.style.color='#fff';this.style.borderColor='#E1306C'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.color='rgba(255,255,255,0.6)';this.style.borderColor='rgba(255,255,255,0.08)'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg></a>` : ''}
+        ${business.facebook ? `<a href="${business.facebook.startsWith('http') ? business.facebook : 'https://facebook.com/' + business.facebook}" target="_blank" rel="noopener" style="width:34px;height:34px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:8px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);transition:0.2s;" onmouseover="this.style.background='#1877F2';this.style.color='#fff';this.style.borderColor='#1877F2'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.color='rgba(255,255,255,0.6)';this.style.borderColor='rgba(255,255,255,0.08)'"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>` : ''}
+        ${business.twitter ? `<a href="${business.twitter.startsWith('http') ? business.twitter : 'https://x.com/' + business.twitter.replace('@','')}" target="_blank" rel="noopener" style="width:34px;height:34px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:8px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);transition:0.2s;" onmouseover="this.style.background='#000';this.style.color='#fff';this.style.borderColor='#333'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.color='rgba(255,255,255,0.6)';this.style.borderColor='rgba(255,255,255,0.08)'"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>` : ''}
+        ${business.tiktok ? `<a href="${business.tiktok.startsWith('http') ? business.tiktok : 'https://tiktok.com/@' + business.tiktok.replace('@','')}" target="_blank" rel="noopener" style="width:34px;height:34px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:8px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);transition:0.2s;" onmouseover="this.style.background='#000';this.style.color='#fff';this.style.borderColor='#333'" onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.color='rgba(255,255,255,0.6)';this.style.borderColor='rgba(255,255,255,0.08)'"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.61a8.21 8.21 0 0 0 4.76 1.51v-3.45a4.85 4.85 0 0 1-1-.02z"/></svg></a>` : ''}
+      </div>` : ''}
       <div class="modal-actions">
         ${business.phone ? `<a href="tel:${business.phone}" class="btn btn-primary">Call Now ${ICONS.phone}</a>` : ''}
         ${business.website ? `<a href="${business.website}" target="_blank" rel="noopener" class="btn btn-secondary">Visit Website</a>` : ''}
