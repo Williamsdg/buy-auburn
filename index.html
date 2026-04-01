@@ -815,11 +815,12 @@
       btn.textContent = 'Subscribing...';
 
       try {
-        const { data, error } = await db.from('subscribers').upsert(
-          { email: email, sports: sports, preferred_industries: industries },
-          { onConflict: 'email' }
-        );
-        if (error) throw error;
+        const apiRes = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, sports, preferred_industries: industries })
+        });
+        if (!apiRes.ok) throw new Error('Subscription failed');
         document.getElementById('subscribe-form').style.display = 'none';
         document.getElementById('sub-success').style.display = 'block';
       } catch (err) {
