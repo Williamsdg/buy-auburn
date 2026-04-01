@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#03244d"/>
+      <stop offset="60%" style="stop-color:#0a3a6b"/>
+      <stop offset="100%" style="stop-color:#03244d"/>
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F26522"/>
+      <stop offset="100%" style="stop-color:#d4550f"/>
+    </linearGradient>
+    <clipPath id="circleClip">
+      <circle cx="200" cy="200" r="180"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="200" cy="200" r="190" fill="url(#bg)" stroke="#F26522" stroke-width="3"/>
+
+  <!-- Faint Auburn cityscape/campus silhouette -->
+  <g clip-path="url(#circleClip)" opacity="0.06" fill="#F26522">
+    <!-- Samford Hall tower (center) -->
+    <rect x="185" y="160" width="30" height="120" rx="2"/>
+    <rect x="175" y="150" width="50" height="15" rx="2"/>
+    <polygon points="200,120 170,155 230,155"/>
+    <rect x="195" y="125" width="10" height="20"/>
+    <polygon points="200,110 192,128 208,128"/>
+
+    <!-- Left buildings -->
+    <rect x="80" y="220" width="45" height="60" rx="2"/>
+    <rect x="75" y="215" width="55" height="10" rx="1"/>
+    <rect x="130" y="240" width="35" height="40" rx="2"/>
+    <rect x="125" y="235" width="45" height="8" rx="1"/>
+
+    <!-- Right buildings -->
+    <rect x="250" y="230" width="40" height="50" rx="2"/>
+    <rect x="245" y="225" width="50" height="8" rx="1"/>
+    <rect x="295" y="210" width="50" height="70" rx="2"/>
+    <rect x="290" y="205" width="60" height="10" rx="1"/>
+
+    <!-- Trees -->
+    <circle cx="60" cy="255" r="20"/>
+    <circle cx="55" cy="248" r="16"/>
+    <circle cx="160" cy="235" r="15"/>
+    <circle cx="240" cy="240" r="14"/>
+    <circle cx="350" cy="250" r="18"/>
+    <circle cx="345" cy="243" r="14"/>
+
+    <!-- Ground line -->
+    <rect x="20" y="275" width="360" height="8" rx="4"/>
+  </g>
+
+  <!-- Faint skyline reflection lines -->
+  <g opacity="0.03" stroke="#F26522" stroke-width="1" fill="none">
+    <line x1="40" y1="290" x2="360" y2="290"/>
+    <line x1="60" y1="300" x2="340" y2="300"/>
+    <line x1="80" y1="310" x2="320" y2="310"/>
+  </g>
+
+  <!-- Orange accent circle -->
+  <circle cx="200" cy="155" r="42" fill="url(#orangeGrad)" opacity="0.9"/>
+
+  <!-- AB monogram in circle -->
+  <text x="200" y="170" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="36" fill="white" letter-spacing="1">AB</text>
+
+  <!-- BUY AUBURN text -->
+  <text x="200" y="230" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="42" fill="white" letter-spacing="3">BUY</text>
+  <text x="200" y="272" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="42" fill="#F26522" letter-spacing="3">AUBURN</text>
+
+  <!-- Tagline -->
+  <text x="200" y="305" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="500" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="4">SUPPORT THE AUBURN FAMILY</text>
+
+  <!-- Subtle inner ring -->
+  <circle cx="200" cy="200" r="175" fill="none" stroke="rgba(242,101,34,0.08)" stroke-width="1"/>
+</svg>
