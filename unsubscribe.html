@@ -111,8 +111,8 @@
         // Remove from travel_subscriptions
         await db.from('travel_subscriptions').delete().eq('email', email);
 
-        // Remove from email_subscribers (away game alerts)
-        await db.from('email_subscribers').delete().eq('email', email);
+        // Remove from subscribers (away game alerts)
+        await db.from('subscribers').delete().eq('email', email);
 
         document.getElementById('unsub-form').style.display = 'none';
         document.getElementById('unsub-success').style.display = 'block';
