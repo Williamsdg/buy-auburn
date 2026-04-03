@@ -288,19 +288,27 @@
       <!-- Business Type -->
       <div class="form-section">
         <h3>Business Type</h3>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;">
-          <label style="display:flex;align-items:center;gap:10px;padding:14px 20px;background:rgba(242,101,34,0.08);border:2px solid var(--orange);border-radius:var(--radius);cursor:pointer;flex:1;min-width:200px;transition:0.25s ease;" id="type-local-label">
-            <input type="radio" name="businessType" value="local" checked onchange="toggleBusinessType()" style="accent-color:var(--orange);width:18px;height:18px;">
-            <div>
-              <strong style="color:var(--white);font-size:0.95rem;">Physical Location</strong>
-              <p style="color:rgba(255,255,255,0.4);font-size:0.78rem;margin:2px 0 0;">Storefront, office, or service area</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <label id="type-local-label" style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 16px;background:rgba(242,101,34,0.08);border:2px solid var(--orange);border-radius:12px;cursor:pointer;transition:0.25s ease;position:relative;">
+            <input type="radio" name="businessType" value="local" checked onchange="toggleBusinessType()" style="position:absolute;opacity:0;pointer-events:none;">
+            <div style="width:44px;height:44px;background:rgba(242,101,34,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F26522" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <strong style="color:var(--white);font-size:0.95rem;margin-bottom:4px;">Physical Location</strong>
+            <p style="color:rgba(255,255,255,0.4);font-size:0.78rem;margin:0;line-height:1.4;">Storefront, office, or service area</p>
+            <div class="type-check" style="position:absolute;top:10px;right:10px;width:22px;height:22px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
           </label>
-          <label style="display:flex;align-items:center;gap:10px;padding:14px 20px;background:rgba(255,255,255,0.02);border:2px solid rgba(255,255,255,0.08);border-radius:var(--radius);cursor:pointer;flex:1;min-width:200px;transition:0.25s ease;" id="type-online-label">
-            <input type="radio" name="businessType" value="online" onchange="toggleBusinessType()" style="accent-color:var(--orange);width:18px;height:18px;">
-            <div>
-              <strong style="color:var(--white);font-size:0.95rem;">Online / E-Commerce</strong>
-              <p style="color:rgba(255,255,255,0.4);font-size:0.78rem;margin:2px 0 0;">Online store or digital platform</p>
+          <label id="type-online-label" style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 16px;background:rgba(255,255,255,0.02);border:2px solid rgba(255,255,255,0.08);border-radius:12px;cursor:pointer;transition:0.25s ease;position:relative;">
+            <input type="radio" name="businessType" value="online" onchange="toggleBusinessType()" style="position:absolute;opacity:0;pointer-events:none;">
+            <div style="width:44px;height:44px;background:rgba(255,255,255,0.05);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <strong style="color:var(--white);font-size:0.95rem;margin-bottom:4px;">Online / E-Commerce</strong>
+            <p style="color:rgba(255,255,255,0.4);font-size:0.78rem;margin:0;line-height:1.4;">Online store or digital platform</p>
+            <div class="type-check" style="position:absolute;top:10px;right:10px;width:22px;height:22px;background:var(--orange);border-radius:50%;display:none;align-items:center;justify-content:center;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
           </label>
         </div>
@@ -480,6 +488,10 @@
       const cityGroup = document.getElementById('city-group');
       const localLabel = document.getElementById('type-local-label');
       const onlineLabel = document.getElementById('type-online-label');
+      const localCheck = localLabel.querySelector('.type-check');
+      const onlineCheck = onlineLabel.querySelector('.type-check');
+      const localIcon = localLabel.querySelector('div > svg');
+      const onlineIcon = onlineLabel.querySelector('div > svg');
 
       if (isOnline) {
         locationRow.style.display = 'none';
@@ -489,8 +501,14 @@
         cityGroup.querySelector('input').value = '';
         onlineLabel.style.borderColor = 'var(--orange)';
         onlineLabel.style.background = 'rgba(242,101,34,0.08)';
+        onlineCheck.style.display = 'flex';
+        onlineIcon.setAttribute('stroke', '#F26522');
+        onlineLabel.querySelector('div').style.background = 'rgba(242,101,34,0.15)';
         localLabel.style.borderColor = 'rgba(255,255,255,0.08)';
         localLabel.style.background = 'rgba(255,255,255,0.02)';
+        localCheck.style.display = 'none';
+        localIcon.setAttribute('stroke', 'rgba(255,255,255,0.4)');
+        localLabel.querySelector('div').style.background = 'rgba(255,255,255,0.05)';
       } else {
         locationRow.style.display = '';
         cityGroup.style.display = '';
@@ -498,8 +516,14 @@
         cityGroup.querySelector('input').required = true;
         localLabel.style.borderColor = 'var(--orange)';
         localLabel.style.background = 'rgba(242,101,34,0.08)';
+        localCheck.style.display = 'flex';
+        localIcon.setAttribute('stroke', '#F26522');
+        localLabel.querySelector('div').style.background = 'rgba(242,101,34,0.15)';
         onlineLabel.style.borderColor = 'rgba(255,255,255,0.08)';
         onlineLabel.style.background = 'rgba(255,255,255,0.02)';
+        onlineCheck.style.display = 'none';
+        onlineIcon.setAttribute('stroke', 'rgba(255,255,255,0.4)');
+        onlineLabel.querySelector('div').style.background = 'rgba(255,255,255,0.05)';
       }
     }
 
