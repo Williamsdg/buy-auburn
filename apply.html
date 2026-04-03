@@ -779,7 +779,8 @@
             instagram: formData.get('instagram')?.trim() || null,
             twitter: formData.get('twitter')?.trim() || null,
             facebook: formData.get('facebook')?.trim() || null,
-            tiktok: formData.get('tiktok')?.trim() || null
+            tiktok: formData.get('tiktok')?.trim() || null,
+            logoUrl: logoUrl || null
           })
         }).catch(err => console.error('Notify error:', err));
 

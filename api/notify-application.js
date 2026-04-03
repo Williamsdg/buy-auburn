@@ -42,7 +42,10 @@ export default async function handler(req, res) {
   <div style="background:rgba(0,0,0,0.25);border-radius:12px;border:1px solid rgba(242,101,34,0.15);padding:24px;margin-bottom:20px;">
     <table cellpadding="0" cellspacing="0" style="width:100%;">
       <tr>
-        <td>
+        ${app.logoUrl ? `<td style="width:64px;vertical-align:top;padding-right:16px;">
+          <img src="${app.logoUrl}" width="60" height="60" style="width:60px;height:60px;border-radius:10px;object-fit:cover;display:block;" alt="Logo">
+        </td>` : ''}
+        <td style="vertical-align:top;">
           <h2 style="color:#fff;font-size:20px;margin:0 0 4px;font-weight:700;">${app.businessName}</h2>
           <p style="color:#F26522;font-size:13px;font-weight:600;margin:0 0 12px;">${app.industry} ${isOnline ? '&middot; Online' : ''}</p>
         </td>
