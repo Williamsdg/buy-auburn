@@ -572,6 +572,7 @@
               ${b.payment_status === 'unpaid' ? `
                 <button class="action-btn approve" onclick="markPaid('${b.id}')">Mark Paid</button>
                 <button class="action-btn waive-biz" onclick="waivePayment('${b.id}')">Waive</button>
+                <button class="action-btn" style="background:var(--orange);color:#fff;" onclick="resendPayment('${b.id}')">Resend Payment</button>
               ` : ''}
               <button class="action-btn reject" onclick="removeBusiness('${b.id}', '${b.name.replace(/'/g, "\\'")}')">Remove</button>
             </div>
@@ -706,6 +707,40 @@
       } catch (err) {
         console.error(err);
         alert('Error waiving payment.');
+      }
+    }
+
+    async function resendPayment(id) {
+      const biz = _allBusinesses.find(b => b.id === id);
+      if (!biz) return;
+      if (!confirm('Resend payment email to ' + biz.contact + ' for "' + biz.name + '"?')) return;
+
+      const paymentLink = PRICING_LINKS['full'];
+      if (!paymentLink || paymentLink.startsWith('STRIPE_LINK')) {
+        alert('Stripe link not set. Update PRICING_LINKS in admin.html.');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/send-approval', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            businessName: biz.name,
+            ownerName: biz.owner,
+            email: biz.contact,
+            paymentLink: paymentLink,
+            priceLabel: '$300/year'
+          })
+        });
+        if (res.ok) {
+          alert('Payment email resent to ' + biz.contact);
+        } else {
+          alert('Failed to send email. Try again.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Error sending email.');
       }
     }
 
