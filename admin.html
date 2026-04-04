@@ -169,25 +169,6 @@
     .app-card-actions { padding: 16px 24px; display: flex; gap: 8px; }
     .app-card-actions .action-btn { flex: 1; text-align: center; padding: 10px 14px; font-size: 0.82rem; border-radius: 8px; }
 
-    .pricing-pill {
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s ease;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      color: rgba(255,255,255,0.4);
-      flex: 1;
-      text-align: center;
-    }
-    .pricing-pill:hover { border-color: rgba(245,158,11,0.3); color: rgba(255,255,255,0.6); }
-    .pricing-pill.active {
-      background: rgba(245,158,11,0.12);
-      border-color: var(--amber, #f59e0b);
-      color: #f59e0b;
-    }
     .empty-state { text-align: center; padding: 60px 24px; color: rgba(255,255,255,0.3); font-size: 0.95rem; }
 
     @media (max-width: 900px) {
@@ -496,11 +477,12 @@
 
     function renderApplications() {
       const grid = document.getElementById('applications-grid');
-      if (_applications.length === 0) {
-        grid.innerHTML = '<div class="empty-state">No applications yet</div>';
+      const pending = _applications.filter(a => a.status === 'pending');
+      if (pending.length === 0) {
+        grid.innerHTML = '<div class="empty-state">No pending applications</div>';
         return;
       }
-      grid.innerHTML = _applications.map(app => `
+      grid.innerHTML = pending.map(app => `
         <div class="app-card">
           <div class="app-card-header">
             <div style="display:flex;align-items:center;gap:14px;">
@@ -537,17 +519,6 @@
             <span><strong>Address:</strong> ${app.address}</span>
           </div>
           ${app.status === 'pending' ? `
-          <div style="padding:12px 24px;border-top:1px solid rgba(255,255,255,0.04);">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-              <label style="font-size:0.7rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.06em;white-space:nowrap;">Pricing</label>
-              <div style="display:flex;gap:4px;flex:1;" id="pricing-${app.id}">
-                <button class="pricing-pill active" data-tier="full" onclick="selectPricing('${app.id}','full',this)">$300/yr</button>
-                <button class="pricing-pill" data-tier="25off" onclick="selectPricing('${app.id}','25off',this)">25% Off</button>
-                <button class="pricing-pill" data-tier="50off" onclick="selectPricing('${app.id}','50off',this)">50% Off</button>
-                <button class="pricing-pill" data-tier="75off" onclick="selectPricing('${app.id}','75off',this)">75% Off</button>
-              </div>
-            </div>
-          </div>
           <div class="app-card-actions">
             <button class="action-btn approve" onclick="approveApp('${app.id}')">Approve</button>
             <button class="action-btn waive-btn" onclick="waiveApp('${app.id}')">Waive Fee</button>
@@ -589,72 +560,38 @@
       `).join('');
     }
 
-    // Stripe payment links per pricing tier
-    // UPDATE THESE when Buy Auburn sends the links
-    const PRICING_LINKS = {
-      full: 'https://buy.stripe.com/4gM5kF9ZpdTafN9gU39bO00',      // $300/yr
-      '25off': 'STRIPE_LINK_25_OFF',        // $225/yr
-      '50off': 'STRIPE_LINK_50_OFF',        // $150/yr
-      '75off': 'STRIPE_LINK_75_OFF'         // $75/yr
-    };
-
-    const PRICING_LABELS = {
-      full: '$300/year',
-      '25off': '$225/year (25% off)',
-      '50off': '$150/year (50% off)',
-      '75off': '$75/year (75% off)'
-    };
-
-    // Track selected pricing per application
-    const selectedPricing = {};
-
-    function selectPricing(appId, tier, btn) {
-      selectedPricing[appId] = tier;
-      var container = document.getElementById('pricing-' + appId);
-      container.querySelectorAll('.pricing-pill').forEach(function(p) { p.classList.remove('active'); });
-      btn.classList.add('active');
-    }
+    const PAYMENT_LINK = 'https://buy.stripe.com/4gM5kF9ZpdTafN9gU39bO00';
 
     async function approveApp(id) {
       const app = _applications.find(a => a.id === id);
       if (!app) return;
 
-      const tier = selectedPricing[id] || 'full';
-      const priceLabel = PRICING_LABELS[tier];
-      const paymentLink = PRICING_LINKS[tier];
-
-      if (!confirm('Approve "' + app.business_name + '" at ' + priceLabel + '?')) return;
+      if (!confirm('Approve "' + app.business_name + '" and send payment link?')) return;
 
       try {
         await approveAndCreateBusiness(app);
 
-        if (paymentLink && !paymentLink.startsWith('STRIPE_LINK')) {
-          // Send approval email with payment link
-          try {
-            const emailRes = await fetch('/api/send-approval', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                businessName: app.business_name,
-                ownerName: app.owner_name,
-                email: app.email,
-                paymentLink: paymentLink,
-                priceLabel: priceLabel
-              })
-            });
-            if (emailRes.ok) {
-              alert(app.business_name + ' approved at ' + priceLabel + '!\n\nApproval email with payment link sent to ' + app.email);
-            } else {
-              // Fallback: copy to clipboard
-              try { await navigator.clipboard.writeText(paymentLink); } catch(e) {}
-              alert(app.business_name + ' approved at ' + priceLabel + '!\n\nEmail failed to send. Payment link copied to clipboard — send it manually to ' + app.email);
-            }
-          } catch(e) {
-            try { await navigator.clipboard.writeText(paymentLink); } catch(e2) {}
-            alert(app.business_name + ' approved at ' + priceLabel + '!\n\nEmail failed to send. Payment link copied to clipboard — send it manually to ' + app.email);
+        try {
+          const emailRes = await fetch('/api/send-approval', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              businessName: app.business_name,
+              ownerName: app.owner_name,
+              email: app.email,
+              paymentLink: PAYMENT_LINK,
+              priceLabel: '$300/year'
+            })
+          });
+          if (emailRes.ok) {
+            alert(app.business_name + ' approved!\n\nPayment email sent to ' + app.email);
+          } else {
+            try { await navigator.clipboard.writeText(PAYMENT_LINK); } catch(e) {}
+            alert(app.business_name + ' approved!\n\nEmail failed. Payment link copied to clipboard — send manually to ' + app.email);
           }
-        } else {
-          alert(app.business_name + ' approved at ' + priceLabel + '!\n\nStripe link not set yet for this tier. Update PRICING_LINKS in admin.html.');
+        } catch(e) {
+          try { await navigator.clipboard.writeText(PAYMENT_LINK); } catch(e2) {}
+          alert(app.business_name + ' approved!\n\nEmail failed. Payment link copied to clipboard — send manually to ' + app.email);
         }
 
         await refreshData();
@@ -723,11 +660,7 @@
       if (!biz) return;
       if (!confirm('Resend payment email to ' + biz.contact + ' for "' + biz.name + '"?')) return;
 
-      const paymentLink = PRICING_LINKS['full'];
-      if (!paymentLink || paymentLink.startsWith('STRIPE_LINK')) {
-        alert('Stripe link not set. Update PRICING_LINKS in admin.html.');
-        return;
-      }
+      const paymentLink = PAYMENT_LINK;
 
       try {
         const res = await fetch('/api/send-approval', {
