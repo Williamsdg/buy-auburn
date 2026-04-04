@@ -539,6 +539,23 @@
         </div>
       </div>
 
+      <!-- Referral -->
+      <div class="form-section">
+        <h3><span class="section-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#F26522" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></span> Referral</h3>
+        <p style="color:rgba(255,255,255,0.4);font-size:0.85rem;margin-bottom:16px;">Optional — if someone referred you, let us know so we can thank them.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Referred by (Name)</label>
+            <input type="text" name="referralName" placeholder="e.g. John Smith">
+          </div>
+          <div class="form-group">
+            <label>Referral Code</label>
+            <input type="text" name="referralCode" placeholder="e.g. AUBURN50">
+            <span class="help-text">If you were given a referral or promo code</span>
+          </div>
+        </div>
+      </div>
+
       <div style="margin-bottom:20px;">
         <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.88rem;color:rgba(255,255,255,0.6);line-height:1.5;">
           <input type="checkbox" id="agree-terms" required style="margin-top:4px;accent-color:var(--orange);flex-shrink:0;width:18px;height:18px;">
@@ -761,6 +778,8 @@
           email: formData.get('email'),
           phone: formData.get('phone'),
           auburnConnection: formData.get('auburnConnection'),
+          referralName: formData.get('referralName')?.trim() || null,
+          referralCode: formData.get('referralCode')?.trim() || null,
           logoUrl: logoUrl,
           instagram: formData.get('instagram')?.trim() || null,
           twitter: formData.get('twitter')?.trim() || null,
@@ -785,6 +804,8 @@
             email: formData.get('email'),
             phone: formData.get('phone'),
             auburnConnection: formData.get('auburnConnection'),
+            referralName: formData.get('referralName')?.trim() || null,
+            referralCode: formData.get('referralCode')?.trim() || null,
             instagram: formData.get('instagram')?.trim() || null,
             twitter: formData.get('twitter')?.trim() || null,
             facebook: formData.get('facebook')?.trim() || null,

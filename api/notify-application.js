@@ -90,6 +90,15 @@ export default async function handler(req, res) {
     <p style="color:rgba(255,255,255,0.75);font-size:14px;line-height:1.6;margin:0;background:rgba(0,0,0,0.15);padding:14px;border-radius:8px;border-left:3px solid #F26522;">${app.auburnConnection}</p>
   </div>
 
+  <!-- Referral -->
+  ${app.referralName || app.referralCode ? `
+  <div style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.15);border-radius:10px;padding:16px;margin-bottom:20px;">
+    <p style="color:#22c55e;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin:0 0 8px;">Referral</p>
+    ${app.referralName ? `<p style="color:rgba(255,255,255,0.8);font-size:14px;margin:0 0 4px;"><strong>Referred by:</strong> ${app.referralName}</p>` : ''}
+    ${app.referralCode ? `<p style="color:rgba(255,255,255,0.8);font-size:14px;margin:0;"><strong>Code:</strong> <span style="color:#22c55e;font-weight:600;">${app.referralCode}</span></p>` : ''}
+  </div>
+  ` : ''}
+
   <!-- Owner Info -->
   <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:16px;margin-bottom:20px;">
     <p style="color:rgba(255,255,255,0.4);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin:0 0 10px;">Owner Details</p>

@@ -84,7 +84,9 @@ async function submitApplication(formData) {
       twitter: formData.twitter || null,
       facebook: formData.facebook || null,
       tiktok: formData.tiktok || null,
-      business_type: formData.businessType || 'local'
+      business_type: formData.businessType || 'local',
+      referral_name: formData.referralName || null,
+      referral_code: formData.referralCode || null
     }]);
 
   if (error) throw error;

@@ -511,6 +511,15 @@
               <div class="app-field-value">${app.auburn_connection || 'N/A'}</div>
             </div>
           </div>
+          ${app.referral_name || app.referral_code ? `
+          <div style="padding:8px 24px;">
+            <div style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.12);border-radius:8px;padding:10px 14px;display:flex;gap:16px;align-items:center;">
+              <span style="color:#22c55e;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">Referral</span>
+              ${app.referral_name ? '<span style="color:rgba(255,255,255,0.7);font-size:0.85rem;">By: <strong style="color:#fff;">' + app.referral_name + '</strong></span>' : ''}
+              ${app.referral_code ? '<span style="color:rgba(255,255,255,0.7);font-size:0.85rem;">Code: <strong style="color:#22c55e;">' + app.referral_code + '</strong></span>' : ''}
+            </div>
+          </div>
+          ` : ''}
           <div class="app-card-contact">
             <span><strong>Owner:</strong> ${app.owner_name}</span>
             <span><strong>Email:</strong> ${app.email}</span>
