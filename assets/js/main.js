@@ -180,7 +180,7 @@ function createBusinessCard(business) {
       <div class="card-inner">
         <div class="card-top-bar">
           <span class="card-type-badge">${business.industry}</span>
-          <span class="card-we-badge">WE</span>
+          <span class="card-we-badge">BA</span>
         </div>
         <div class="card-art" style="background:${business.logo_url ? 'transparent' : color}">
           ${business.logo_url
