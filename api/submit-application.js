@@ -1,49 +1,5 @@
-// Rate limiting: track submissions per IP
-const submissions = new Map();
-const RATE_LIMIT = 5; // max submissions
-const RATE_WINDOW = 60 * 60 * 1000; // 1 hour
-
-function isRateLimited(ip) {
-  const now = Date.now();
-  const record = submissions.get(ip);
-
-  if (!record) {
-    submissions.set(ip, { count: 1, start: now });
-    return false;
-  }
-
-  // Reset window if expired
-  if (now - record.start > RATE_WINDOW) {
-    submissions.set(ip, { count: 1, start: now });
-    return false;
-  }
-
-  if (record.count >= RATE_LIMIT) {
-    return true;
-  }
-
-  record.count++;
-  return false;
-}
-
-// Clean up old entries periodically
-setInterval(() => {
-  const now = Date.now();
-  for (const [ip, record] of submissions) {
-    if (now - record.start > RATE_WINDOW) {
-      submissions.delete(ip);
-    }
-  }
-}, 10 * 60 * 1000); // every 10 minutes
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
-
-  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.socket?.remoteAddress || 'unknown';
-
-  if (isRateLimited(ip)) {
-    return res.status(429).json({ error: 'Too many submissions. Please try again later.' });
-  }
 
   const app = req.body;
   if (!app || !app.business_name || !app.email) {
@@ -60,7 +16,7 @@ export default async function handler(req, res) {
         'apikey': SUPABASE_KEY,
         'Authorization': `Bearer ${SUPABASE_KEY}`,
         'Content-Type': 'application/json',
-        'Prefer': 'return=representation'
+        'Prefer': 'return=minimal'
       },
       body: JSON.stringify({
         business_name: app.business_name,
