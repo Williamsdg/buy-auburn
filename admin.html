@@ -388,6 +388,56 @@
     </div>
   </div>
 
+  <!-- Edit Business Modal -->
+  <div id="edit-biz-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;overflow-y:auto;">
+    <div style="background:var(--navy-mid,#071e3d);border:1px solid rgba(242,101,34,0.12);border-radius:14px;padding:32px;max-width:600px;width:90%;margin:60px auto;">
+      <h3 style="color:#fff;font-size:1.2rem;margin-bottom:20px;">Edit Business</h3>
+      <input type="hidden" id="edit-biz-id">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div style="grid-column:1/3;">
+          <label style="display:block;font-size:0.75rem;font-weight:600;color:#F26522;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Business Name</label>
+          <input type="text" id="edit-biz-name" style="width:100%;padding:10px 14px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#fff;font-size:0.9rem;outline:none;font-family:inherit;">
+        </div>
+        <div>
+          <label style="display:block;font-size:0.75rem;font-weight:600;color:#F26522;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Industry</label>
+          <input type="text" id="edit-biz-industry" style="width:100%;padding:10px 14px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#fff;font-size:0.9rem;outline:none;font-family:inherit;">
+        </div>
+        <div>
+          <label style="display:block;font-size:0.75rem;font-weight:600;color:#F26522;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Location</label>
+          <input type="text" id="edit-biz-location" style="width:100%;padding:10px 14px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#fff;font-size:0.9rem;outline:none;font-family:inherit;">
+        </div>
+        <div style="grid-column:1/3;">
+          <label style="display:block;font-size:0.75rem;font-weight:600;color:#F26522;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Website</label>
+          <input type="text" id="edit-biz-website" style="width:100%;padding:10px 14px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#fff;font-size:0.9rem;outline:none;font-family:inherit;">
+        </div>
+        <div style="grid-column:1/3;">
+          <label style="display:block;font-size:0.75rem;font-weight:600;color:#F26522;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Description</label>
+          <textarea id="edit-biz-bio" rows="3" style="width:100%;padding:10px 14px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#fff;font-size:0.9rem;outline:none;font-family:inherit;resize:vertical;"></textarea>
+        </div>
+        <div>
+          <label style="display:block;font-size:0.75rem;font-weight:600;color:#F26522;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Owner</label>
+          <input type="text" id="edit-biz-owner" style="width:100%;padding:10px 14px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#fff;font-size:0.9rem;outline:none;font-family:inherit;">
+        </div>
+        <div>
+          <label style="display:block;font-size:0.75rem;font-weight:600;color:#F26522;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Contact Email</label>
+          <input type="text" id="edit-biz-contact" style="width:100%;padding:10px 14px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#fff;font-size:0.9rem;outline:none;font-family:inherit;">
+        </div>
+        <div>
+          <label style="display:block;font-size:0.75rem;font-weight:600;color:#F26522;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Phone</label>
+          <input type="text" id="edit-biz-phone" style="width:100%;padding:10px 14px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#fff;font-size:0.9rem;outline:none;font-family:inherit;">
+        </div>
+        <div>
+          <label style="display:block;font-size:0.75rem;font-weight:600;color:#F26522;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Address</label>
+          <input type="text" id="edit-biz-address" style="width:100%;padding:10px 14px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#fff;font-size:0.9rem;outline:none;font-family:inherit;">
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:20px;">
+        <button onclick="closeEditBiz()" style="flex:1;padding:12px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);font-weight:600;font-size:0.88rem;cursor:pointer;font-family:inherit;">Cancel</button>
+        <button onclick="saveEditBiz()" style="flex:1;padding:12px;border-radius:8px;background:#F26522;border:none;color:#fff;font-weight:600;font-size:0.88rem;cursor:pointer;font-family:inherit;">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
   <footer class="footer">
     <div class="container">
       <p>&copy; 2026 Auburn Business Network. Admin Panel.</p><p style="margin-top:8px;font-size:0.75rem;color:rgba(255,255,255,0.2);"><a href="https://williamsdigital.io" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.25);text-decoration:none;">Powered by Williams Digital</a></p>
@@ -588,6 +638,7 @@
           </td>
           <td>
             <div class="action-btns">
+              <button class="action-btn" onclick="openEditBiz('${b.id}')" style="background:rgba(59,130,246,0.1);color:#60a5fa;border:1px solid rgba(59,130,246,0.2);">Edit</button>
               ${b.payment_status === 'unpaid' ? `
                 <button class="action-btn approve" onclick="markPaid('${b.id}')">Mark Paid</button>
                 <button class="action-btn waive-biz" onclick="waivePayment('${b.id}')">Waive</button>
@@ -779,6 +830,47 @@
         if (el) el.style.display = t === tab ? '' : 'none';
       });
       if (tab === 'analytics') loadAnalytics();
+    }
+
+    // === Edit Business ===
+    function openEditBiz(id) {
+      const b = _allBusinesses.find(x => x.id === id);
+      if (!b) return;
+      document.getElementById('edit-biz-id').value = b.id;
+      document.getElementById('edit-biz-name').value = b.name || '';
+      document.getElementById('edit-biz-industry').value = b.industry || '';
+      document.getElementById('edit-biz-location').value = b.location || '';
+      document.getElementById('edit-biz-website').value = b.website || '';
+      document.getElementById('edit-biz-bio').value = b.bio || '';
+      document.getElementById('edit-biz-owner').value = b.owner || '';
+      document.getElementById('edit-biz-contact').value = b.contact || '';
+      document.getElementById('edit-biz-phone').value = b.phone || '';
+      document.getElementById('edit-biz-address').value = b.address || '';
+      document.getElementById('edit-biz-modal').style.display = 'block';
+    }
+    function closeEditBiz() { document.getElementById('edit-biz-modal').style.display = 'none'; }
+    document.getElementById('edit-biz-modal').addEventListener('click', function(e) { if (e.target === this) closeEditBiz(); });
+
+    async function saveEditBiz() {
+      const id = document.getElementById('edit-biz-id').value;
+      const updates = {
+        name: document.getElementById('edit-biz-name').value,
+        industry: document.getElementById('edit-biz-industry').value,
+        location: document.getElementById('edit-biz-location').value,
+        website: document.getElementById('edit-biz-website').value,
+        bio: document.getElementById('edit-biz-bio').value,
+        owner: document.getElementById('edit-biz-owner').value,
+        contact: document.getElementById('edit-biz-contact').value,
+        phone: document.getElementById('edit-biz-phone').value,
+        address: document.getElementById('edit-biz-address').value
+      };
+      try {
+        const { error } = await db.from('businesses').update(updates).eq('id', id);
+        if (error) throw error;
+        closeEditBiz();
+        await refreshData();
+        alert('Business updated!');
+      } catch (err) { alert('Error saving: ' + err.message); }
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
