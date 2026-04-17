@@ -304,6 +304,16 @@
         </div>
 
         <div id="tab-businesses" style="display:none;">
+          <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+            <select id="admin-biz-industry" onchange="renderBusinesses()" style="padding:8px 12px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#fff;font-size:0.82rem;font-family:inherit;">
+              <option value="">All Industries</option>
+            </select>
+            <select id="admin-biz-payment" onchange="renderBusinesses()" style="padding:8px 12px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#fff;font-size:0.82rem;font-family:inherit;">
+              <option value="">All Payment Status</option>
+              <option value="paid">Paid</option><option value="unpaid">Unpaid</option><option value="waived">Waived</option>
+            </select>
+            <input type="text" id="admin-biz-search" oninput="renderBusinesses()" placeholder="Search name, owner, location..." style="flex:1;min-width:200px;padding:8px 12px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#fff;font-size:0.82rem;font-family:inherit;">
+          </div>
           <div class="admin-table-wrapper">
             <table class="admin-table">
               <thead>
@@ -633,11 +643,32 @@
 
     function renderBusinesses() {
       const tbody = document.getElementById('businesses-body');
-      if (_allBusinesses.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:rgba(255,255,255,0.3);padding:40px;">No businesses yet</td></tr>';
+      const industryFilter = document.getElementById('admin-biz-industry')?.value || '';
+      const paymentFilter = document.getElementById('admin-biz-payment')?.value || '';
+      const searchFilter = (document.getElementById('admin-biz-search')?.value || '').toLowerCase();
+
+      // Populate industry dropdown dynamically
+      const industrySelect = document.getElementById('admin-biz-industry');
+      if (industrySelect && industrySelect.options.length <= 1) {
+        const industries = [...new Set(_allBusinesses.map(b => b.industry).filter(Boolean))].sort();
+        industries.forEach(ind => { industrySelect.innerHTML += `<option value="${ind}">${ind}</option>`; });
+      }
+
+      let filtered = _allBusinesses.filter(b => {
+        if (industryFilter && b.industry !== industryFilter) return false;
+        if (paymentFilter && b.payment_status !== paymentFilter) return false;
+        if (searchFilter) {
+          const str = `${b.name} ${b.owner} ${b.location} ${b.contact} ${b.industry}`.toLowerCase();
+          if (!str.includes(searchFilter)) return false;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:rgba(255,255,255,0.3);padding:40px;">No businesses match filters</td></tr>';
         return;
       }
-      tbody.innerHTML = _allBusinesses.map(b => `
+      tbody.innerHTML = filtered.map(b => `
         <tr>
           <td><strong>${b.name}</strong></td>
           <td>${b.owner}</td>
